@@ -104,11 +104,11 @@ const AttendanceSystem = () => {
   }
 
   function encryptText(text) {
-    var base64Text = base64Encode(text);
+    var knitted = knitString(knitString(text))
+    var base64Text = base64Encode(knitted);
     var rot13Text = rot13(base64Text);
-    var finalBase64Text = base64Encode(rot13Text);
-    var knitted = knitString(knitString(finalBase64Text));
-    return knitted;
+    var finalText = base64Encode(rot13Text);
+    return finalText;
   }
 
   const getStudentInfo = () => {
