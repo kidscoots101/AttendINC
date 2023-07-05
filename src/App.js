@@ -87,8 +87,8 @@ const AttendanceSystem = () => {
   }
 
   function encryptText(text) {
-    var rot13Text = rot13(text);
-    var base64Text = base64Encode(rot13Text);
+    var base64Text = base64Encode(text);
+    var rot13Text = rot13(base64Text);
     var finalBase64Text = base64Encode(base64Text);
     return finalBase64Text;
   }
