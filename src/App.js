@@ -85,12 +85,30 @@ const AttendanceSystem = () => {
   function base64Encode(text) {
     return btoa(text);
   }
+  function knitString(str) {
+    let result = "";
+    let left = 0;
+    let right = str.length - 1;
+
+    while (left <= right) {
+      if (left === right) {
+        result += str[left];
+      } else {
+        result += str[left] + str[right];
+      }
+      left++;
+      right--;
+    }
+
+    return result;
+  }
 
   function encryptText(text) {
     var base64Text = base64Encode(text);
     var rot13Text = rot13(base64Text);
     var finalBase64Text = base64Encode(base64Text);
-    return finalBase64Text;
+    var knitted = knitString(finalBase64Text);
+    return knitted;
   }
 
   const getStudentInfo = () => {
