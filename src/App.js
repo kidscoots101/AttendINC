@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
 import { initializeApp } from "firebase/app";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { findAllByAltText } from "@testing-library/react";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDSaQQGTab4XkyTDcVxA4s07m3N8KlYD7k",
@@ -104,11 +106,11 @@ const AttendanceSystem = () => {
   }
 
   function encryptText(text) {
-    var knitted = knitString(knitString(text))
+    var knitted = knitString(knitString(text));
     var base64Text = base64Encode(knitted);
     var rot13Text = rot13(base64Text);
     var finalText = base64Encode(rot13Text);
-    return finalText;
+    console.log(finalText);
   }
 
   const getStudentInfo = () => {
@@ -118,6 +120,18 @@ const AttendanceSystem = () => {
     const studentInfo = `${finalouput}`;
 
     return studentInfo;
+  };
+  const clientId =
+    "635818492905-f30iuhv6kjtvo08fv8juq468mr6nj7u6.apps.googleusercontent.com";
+
+  const handleLoginSuccess = (response) => {
+    // Access the email address from the response object
+    const email = response.profileObj.email;
+    console.log(email);
+  };
+
+  const handleLoginFailure = () => {
+    console.log("Login Failed");
   };
 
   return (
@@ -131,8 +145,17 @@ const AttendanceSystem = () => {
         height: "100vh",
       }}
     >
-      {qrCodeData && <QRCode value={qrCodeData} size={200} key={qrCodeData} />}
-      <GoogleOAuthProvider clientId="<your_client_id>"></GoogleOAuthProvider>
+      {/* {qrCodeData && <QRCode value={qrCodeData} size={200} key={qrCodeData} />} */}
+      <GoogleOAuthProvider clientId="635818492905-f30iuhv6kjtvo08fv8juq468mr6nj7u6.apps.googleusercontent.com">
+        <GoogleLogin
+          clientId={clientId}
+          onSuccess={handleLoginSuccess}
+          onFailure={handleLoginFailure}
+          scope="https://www.googleapis.com/auth/userinfo.email"
+          buttonText="Login with Google"
+          cookiePolicy={"single_host_origin"}
+        />
+      </GoogleOAuthProvider>
     </div>
   );
 };
