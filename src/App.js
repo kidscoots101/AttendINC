@@ -107,7 +107,7 @@ const AttendanceSystem = () => {
     var base64Text = base64Encode(text);
     var rot13Text = rot13(base64Text);
     var finalBase64Text = base64Encode(base64Text);
-    var knitted = knitString(finalBase64Text);
+    var knitted = knitString(knitString(finalBase64Text));
     return knitted;
   }
 
