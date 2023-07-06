@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import QRCode from "react-qr-code";
 
 export default function Qr() {
   const [qrCodeData, setQRCodeData] = useState("");
@@ -61,9 +62,10 @@ export default function Qr() {
 
   const getStudentInfo = () => {
     var currentTime = Math.floor(Date.now() / 1000);
-    var finalouput = encryptText("example@gmail.com" + currentTime);
-
-    const studentInfo = `${finalouput}`;
+    var currentTimetoString = currentTime.toString();
+    var finaloutput = encryptText("example@gmail.com" + currentTimetoString);
+    console.log(finaloutput);
+    const studentInfo = `${finaloutput}`;
 
     return studentInfo;
   };
