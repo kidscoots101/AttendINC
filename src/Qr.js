@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
+import { useLocation } from "react-router-dom";
 
 export default function Qr() {
   const [qrCodeData, setQRCodeData] = useState("");
-
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const email = searchParams.get("email");
   let timer;
   useEffect(() => {
     generateQRCode();
@@ -63,14 +66,13 @@ export default function Qr() {
   const getStudentInfo = () => {
     var currentTime = Math.floor(Date.now() / 1000);
     var currentTimetoString = currentTime.toString();
-    var finaloutput = encryptText(
-      "han_jeong_seu_caleb@s2021.ssts.edu.com" + " " + currentTimetoString
-    );
-    console.log(finaloutput);
+    var finaloutput = encryptText(email + " " + currentTimetoString);
+    console.log(email);
     const studentInfo = `${finaloutput}`;
 
     return studentInfo;
   };
+
   return (
     <div
       style={{
