@@ -83,7 +83,7 @@ const AttendanceSystem = () => {
   const responseGoogle = async (response) => {
     console.log("Login Success", response);
     var currentTime = Math.floor(Date.now() / 1000);
-    navigate(`/Qr?email=${response.profileObj.email + currentTime}`);
+    navigate(`/Qr?email=${response.profileObj.email + " " + currentTime}`);
     setEmail(response.profileObj.email);
     setIsLoggedIn(true);
     try {
