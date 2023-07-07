@@ -14,6 +14,8 @@ import {
   getRedirectResult,
 } from "firebase/auth";
 
+gapi.auth2.getAuthInstance().signIn();
+
 const AttendanceSystem = () => {
   const [isLoggedin, setIsLoggedIn] = useState(false);
   const clientId =
