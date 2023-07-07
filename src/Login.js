@@ -14,8 +14,6 @@ import {
   getRedirectResult,
 } from "firebase/auth";
 
-gapi.auth2.getAuthInstance().signIn();
-
 const AttendanceSystem = () => {
   const [isLoggedin, setIsLoggedIn] = useState(false);
   const clientId =
@@ -36,7 +34,42 @@ const AttendanceSystem = () => {
   const failedLoggedIn = () => {
     setIsLoggedIn(false);
   };
+  function rot13(text) {
+    return text.replace(/[a-zA-Z]/g, function (c) {
+      var charCode = c.charCodeAt(0);
+      var base = charCode < 91 ? 65 : 97;
+      return String.fromCharCode(((charCode - base + 13) % 26) + base);
+    });
+  }
 
+  function base64Encode(text) {
+    return btoa(text);
+  }
+  function knitString(str) {
+    let result = "";
+    let left = 0;
+    let right = str.length - 1;
+
+    while (left <= right) {
+      if (left === right) {
+        result += str[left];
+      } else {
+        result += str[left] + str[right];
+      }
+      left++;
+      right--;
+    }
+
+    return result;
+  }
+
+  function encryptText(text) {
+    var knitted = knitString(knitString(text));
+    var base64Text = base64Encode(knitted);
+    var rot13Text = rot13(base64Text);
+    var finalText = base64Encode(rot13Text);
+    return finalText;
+  }
   const firebaseConfig = {
     apiKey: "AIzaSyDSaQQGTab4XkyTDcVxA4s07m3N8KlYD7k",
     authDomain: "https://incterminal-88156.web.app/",
@@ -47,15 +80,18 @@ const AttendanceSystem = () => {
     measurementId: "G-0VY14L4ZM9",
   };
   const [email, setEmail] = useState("");
-  const responseGoogle = (response) => {
+  const responseGoogle = async (response) => {
     console.log("Login Success", response);
+    var currentTime = Math.floor(Date.now() / 1000);
+    navigate(`/Qr?email=${response.profileObj.email + currentTime}`);
     setEmail(response.profileObj.email);
-
-    navigate(
-      `/Qr?email=${response.profileObj.email}`
-    );
-    console.log(response.profileObj.email);
-    // setIsLoggedIn(true);
+    setIsLoggedIn(true);
+    try {
+      await gapi.auth2.getAuthInstance().signIn();
+      console.log(response.profileObj.email + currentTime);
+    } catch (error) {
+      console.error("Error signing in:", error);
+    }
   };
   return (
     <div
@@ -91,8 +127,8 @@ const AttendanceSystem = () => {
         onSuccess={responseGoogle}
         onFailure={failedLoggedIn}
         cookiePolicy={"single_host_origin"}
-        style={{ 
-          backgroundcolor:"blue" 
+        style={{
+          backgroundcolor: "blue",
         }}
       />
       {/* <button className="button">
@@ -105,6 +141,5 @@ const AttendanceSystem = () => {
     </div>
   );
 };
-
 
 export default AttendanceSystem;
