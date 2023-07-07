@@ -72,11 +72,47 @@ export default function Qr() {
 
     return studentInfo;
   };
+  function decryptText(text) {
+    function unKnitString(str) {
+      let result = "";
+      let left = 0;
+      let right = str.length - 1;
+
+      while (left <= right) {
+        if (left === right) {
+          result += str[left];
+        } else {
+          result += str[left] + str[right];
+        }
+        left++;
+        right--;
+      }
+
+      return result;
+    }
+
+    function unrot13(text) {
+      return text.replace(/[a-zA-Z]/g, function (c) {
+        var charCode = c.charCodeAt(0);
+        var base = charCode < 91 ? 65 : 97;
+        return String.fromCharCode(((charCode - base + 13) % 26) + base);
+      });
+    }
+
+    function base64Decode(text) {
+      return atob(text);
+    }
+
+    var base64DecodedText = base64Decode(text);
+    var unrot13Text = unrot13(base64DecodedText);
+    var base64DecodedText2 = base64Decode(unrot13Text);
+    var unknittedText = unKnitString(unKnitString(base64DecodedText2));
+    return unknittedText;
+  }
 
   return (
     <div
       style={{
-        backgroundColor: "black",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -84,18 +120,16 @@ export default function Qr() {
         height: "100vh",
       }}
     >
-      <text style={{ fontWeight: "bold", color:"white" }}>
+      <text style={{ fontWeight: "bold" }}>
         Logged in with: <br />
       </text>
-      <text style={{ fontWeight: "bold", paddingBottom: 30, color:"white" }}>{email}</text>
-      <text style={{ fontWeight: "bold",color: "white", paddingBottom: 30, fontSize: 23 }}>
-      Scan QR code at Ipads to <span style={{ color: "yellow" }}>take attendance</span>
+      <text style={{ fontWeight: "bold", paddingBottom: 30 }}>
+        {decryptText(email)}
       </text>
-
       {qrCodeData && (
         <QRCode
           value={qrCodeData}
-          size={250}
+          size={200}
           style={{ backgroundColor: "#000000" }}
           key={qrCodeData}
         />
