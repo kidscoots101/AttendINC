@@ -77,11 +77,16 @@ export default function Qr() {
     <div
       style={{
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
       }}
     >
+      <text style={{ fontWeight: "bold" }}>
+        Logged in with: <br />
+      </text>
+      <text style={{ fontWeight: "bold", paddingBottom: 30 }}>{email}</text>
       {qrCodeData && (
         <QRCode
           value={qrCodeData}
