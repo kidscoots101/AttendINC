@@ -123,9 +123,11 @@ export default function Qr() {
       <text style={{ fontWeight: "bold" }}>
         Logged in with: <br />
       </text>
-      <text style={{ fontWeight: "bold", paddingBottom: 30 }}>
-        {decryptText(email)}
+      <text style={{ fontWeight: "bold", paddingBottom: 30, color:"white" }}>{email}</text>
+      <text style={{ fontWeight: "bold",color: "white", paddingBottom: 30, fontSize: 23 }}>
+      Scan QR code at Ipads to <span style={{ color: "yellow" }}>take attendance</span>
       </text>
+
       {qrCodeData && (
         <QRCode
           value={qrCodeData}
