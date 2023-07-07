@@ -76,6 +76,7 @@ export default function Qr() {
   return (
     <div
       style={{
+        backgroundColor: "black",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -83,14 +84,18 @@ export default function Qr() {
         height: "100vh",
       }}
     >
-      <text style={{ fontWeight: "bold" }}>
+      <text style={{ fontWeight: "bold", color:"white" }}>
         Logged in with: <br />
       </text>
-      <text style={{ fontWeight: "bold", paddingBottom: 30 }}>{email}</text>
+      <text style={{ fontWeight: "bold", paddingBottom: 30, color:"white" }}>{email}</text>
+      <text style={{ fontWeight: "bold",color: "white", paddingBottom: 30, fontSize: 23 }}>
+      Scan QR code at Ipads to <span style={{ color: "yellow" }}>take attendance</span>
+      </text>
+
       {qrCodeData && (
         <QRCode
           value={qrCodeData}
-          size={200}
+          size={250}
           style={{ backgroundColor: "#000000" }}
           key={qrCodeData}
         />
