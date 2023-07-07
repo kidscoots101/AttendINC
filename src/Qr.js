@@ -121,12 +121,22 @@ export default function Qr() {
         height: "100vh",
       }}
     >
-      <text style={{ fontWeight: "bold", color:"white" }}>
+      <text style={{ fontWeight: "bold", color: "white" }}>
         Logged in with: <br />
       </text>
-      <text style={{ fontWeight: "bold", paddingBottom: 30, color:"white" }}>{email}</text>
-      <text style={{ fontWeight: "bold",color: "white", paddingBottom: 30, fontSize: 23 }}>
-      Scan QR code at Ipads to <span style={{ color: "yellow" }}>take attendance</span>
+      <text style={{ fontWeight: "bold", paddingBottom: 30, color: "white" }}>
+        {email}
+      </text>
+      <text
+        style={{
+          fontWeight: "bold",
+          color: "white",
+          paddingBottom: 30,
+          fontSize: 23,
+        }}
+      >
+        Scan QR code at Ipads to{" "}
+        <span style={{ color: "yellow" }}>mark attendance</span>
       </text>
 
       {qrCodeData && (
@@ -140,4 +150,3 @@ export default function Qr() {
     </div>
   );
 }
-
