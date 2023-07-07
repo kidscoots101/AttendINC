@@ -20,7 +20,7 @@ export default function Qr() {
   const startTimer = () => {
     setTimeout(() => {
       generateQRCode();
-    }, 10000);
+    }, 2000);
   };
 
   function rot13(text) {
