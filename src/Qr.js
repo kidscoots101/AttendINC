@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Qr() {
   const [qrCodeData, setQRCodeData] = useState("");
@@ -109,7 +109,21 @@ export default function Qr() {
     var unknittedText = unKnitString(unKnitString(base64DecodedText2));
     return unknittedText;
   }
+  const navigate = useNavigate();
+  function validateEmail(email) {
+    // Email validation regex pattern
+    const emailPattern = /\S+@\S+\.\S+/;
+    return emailPattern.test(email);
+  }
+  useEffect(() => {
+    if (!email || !validateEmail(email)) {
+      navigate("/");
+    } else {
+      generateQRCode();
+    }
 
+    return () => clearTimeout(timer);
+  }, [email, navigate]);
   return (
     <div
       style={{
