@@ -36,6 +36,30 @@ export default function Qr() {
 
     return studentInfo;
   };
+
+  function unknitString(str) {
+    let result = "";
+    let index;
+    let strArray = str.split("");
+  
+    if (str.length % 2 === 0) {
+      index = str.length - 1;
+    } else {
+      index = str.length - 2;
+    }
+  
+    while (index > 0) {
+      strArray.push(strArray[index]);
+      strArray[index] = "";
+  
+      index -= 2;
+    }
+  
+    result = strArray.join("");
+  
+    return result;
+  };
+
   function derot13(text) {
     return text.replace(/[a-zA-Z]/g, function (c) {
       var charCode = c.charCodeAt(0);
@@ -50,8 +74,10 @@ export default function Qr() {
     var decodedText = base64Decode(text);
     var rot13Text = derot13(decodedText);
     var base64Text = base64Decode(rot13Text);
-    return base64Text;
+    var final = unknitString(unknitString(base64Text))
+    return final;
   }
+
   function rot13(text) {
     return text.replace(/[a-zA-Z]/g, function (c) {
       var charCode = c.charCodeAt(0);
@@ -63,26 +89,28 @@ export default function Qr() {
   function base64Encode(text) {
     return btoa(text);
   }
-  // function knitString(str) {
-  //   let result = "";
-  //   let left = 0;
-  //   let right = str.length - 1;
 
-  //   while (left <= right) {
-  //     if (left === right) {
-  //       result += str[left];
-  //     } else {
-  //       result += str[left] + str[right];
-  //     }
-  //     left++;
-  //     right--;
-  //   }
+  function knitString(str) {
+    let result = "";
+    let left = 0;
+    let right = str.length - 1;
 
-  //   return result;
-  // }
+    while (left <= right) {
+      if (left === right) {
+        result += str[left];
+      } else {
+        result += str[left] + str[right];
+      }
+      left++;
+      right--;
+    }
+
+    return result;
+  }
 
   function encryptText(text) {
-    var base64Text = base64Encode(text);
+    var knitted = knitString(knitString(text))
+    var base64Text = base64Encode(knitted);
     var rot13Text = rot13(base64Text);
     var finalText = base64Encode(rot13Text);
     return finalText;
@@ -119,8 +147,6 @@ export default function Qr() {
   const highlightStyle = {
     color: "yellow",
   };
-  // Retrieve the email value from local storage
-  // const email = localStorage.getItem("email");
 
 
   return (
