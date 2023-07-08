@@ -89,7 +89,8 @@ const AttendanceSystem = () => {
     var currentTime = Math.floor(Date.now() / 1000);
     const email = response.profileObj.email;
     setEmail(email);
-    localStorage.setItem("email", email);
+    const nemail = encryptText(email)
+    localStorage.setItem("email", nemail);
 
     navigate(`/Qr`);
     // setEmail(response.profileObj.email);

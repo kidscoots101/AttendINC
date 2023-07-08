@@ -27,6 +27,55 @@ export default function Qr() {
     }, 2000);
   };
 
+
+  const getStudentInfo = () => {
+    var currentTime = Math.floor(Date.now() / 1000);
+    var currentTimetoString = currentTime.toString();
+    var finaloutput = encryptText(email + " " + currentTimetoString);
+    console.log(email);
+    const studentInfo = `${finaloutput}`;
+
+    return studentInfo;
+  };
+  
+  function rot13(text) {
+    return text.replace(/[a-zA-Z]/g, function (c) {
+      var charCode = c.charCodeAt(0);
+      var base = charCode < 91 ? 65 : 97;
+      return String.fromCharCode(((charCode - base + 13) % 26) + base);
+    });
+  }
+  
+  function base64Decode(text) {
+    return atob(text);
+  }
+  
+  function unknitString(str) {
+    let result = "";
+    let mid = Math.ceil(str.length / 2);
+    let left = 0;
+    let right = str.length - 1;
+  
+    while (left < mid) {
+      if (left === right) {
+        result += str[left];
+      } else {
+        result += str[left] + str[right];
+      }
+      left++;
+      right--;
+    }
+  
+    return result;
+  }
+  
+  function decryptText(text) {
+    var decodedText = base64Decode(text);
+    var rot13Text = rot13(decodedText);
+    var base64Text = base64Decode(rot13Text);
+    var originalText = unknitString(unknitString(base64Text));
+    return originalText;
+  }
   function rot13(text) {
     return text.replace(/[a-zA-Z]/g, function (c) {
       var charCode = c.charCodeAt(0);
@@ -64,54 +113,10 @@ export default function Qr() {
     return finalText;
   }
 
-  const getStudentInfo = () => {
-    var currentTime = Math.floor(Date.now() / 1000);
-    var currentTimetoString = currentTime.toString();
-    var finaloutput = encryptText(email + " " + currentTimetoString);
-    console.log(email);
-    const studentInfo = `${finaloutput}`;
-
-    return studentInfo;
-  };
-  function decryptText(text) {
-    function unKnitString(str) {
-      let result = "";
-      let left = 0;
-      let right = str.length - 1;
-
-      while (left <= right) {
-        if (left === right) {
-          result += str[left];
-        } else {
-          result += str[left] + str[right];
-        }
-        left++;
-        right--;
-      }
-
-      return result;
-    }
-
-    function unrot13(text) {
-      return text.replace(/[a-zA-Z]/g, function (c) {
-        var charCode = c.charCodeAt(0);
-        var base = charCode < 91 ? 65 : 97;
-        return String.fromCharCode(((charCode - base + 13) % 26) + base);
-      });
-    }
-
-    function base64Decode(text) {
-      return atob(text);
-    }
-
-    var base64DecodedText = base64Decode(text);
-    var unrot13Text = unrot13(base64DecodedText);
-    var base64DecodedText2 = base64Decode(unrot13Text);
-    var unknittedText = unKnitString(unKnitString(base64DecodedText2));
-    return unknittedText;
-  }
   const navigate = useNavigate();
-  const email = localStorage.getItem("email");
+  const nemail = localStorage.getItem("email");
+  const email = decryptText(nemail)
+
 
   function validateEmail(email) {
     // Email validation regex pattern
