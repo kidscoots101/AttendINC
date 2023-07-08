@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 // import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
@@ -79,12 +79,20 @@ const AttendanceSystem = () => {
     appId: "1:635818492905:web:8f321bbe5bef7800078178",
     measurementId: "G-0VY14L4ZM9",
   };
+
   const [email, setEmail] = useState("");
+  // const { setEmail } = useContext(EmailContext);
+
   const responseGoogle = async (response) => {
     console.log("Login Success", response);
+
     var currentTime = Math.floor(Date.now() / 1000);
-    navigate(`/Qr?email=${response.profileObj.email + " " + currentTime}`);
-    setEmail(response.profileObj.email);
+    const email = response.profileObj.email;
+    setEmail(email);
+    localStorage.setItem("email", email);
+
+    navigate(`/Qr`);
+    // setEmail(response.profileObj.email);
     setIsLoggedIn(true);
     try {
       await gapi.auth2.getAuthInstance().signIn();
@@ -107,7 +115,9 @@ const AttendanceSystem = () => {
     >
       {/* <GoogleOAuthProvider clientId="635818492905-f30iuhv6kjtvo08fv8juq468mr6nj7u6.apps.googleusercontent.com"> */}
 
-      <h1 style={{ color: "white" }}>AttendINC</h1>
+      <h1 style={{ color: "white", fontFamily: "'Titillium Web', sans-serif" }}>
+        AttendINC
+      </h1>
       <text
         style={{
           fontFamily: "'Titillium Web', sans-serif",
@@ -135,7 +145,14 @@ const AttendanceSystem = () => {
         <text style={{ color: "#E1E1E4" }}>Tap this button</text>
       </button> */}
       {/* </GoogleOAuthProvider> */}
-      <text style={{ color: "white", fontSize: 14, paddingTop: 20 }}>
+      <text
+        style={{
+          color: "white",
+          fontSize: 14,
+          paddingTop: 20,
+          fontFamily: "'Titillium Web', sans-serif",
+        }}
+      >
         Created with ❤️ by 2023 ExCo members
       </text>
     </div>
