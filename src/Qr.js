@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import QRCode from "react-qr-code";
 import { useLocation, useNavigate } from "react-router-dom";
+import email from "./Login";
 
 export default function Qr() {
   const [qrCodeData, setQRCodeData] = useState("");
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const email = searchParams.get("email");
+  // const email = searchParams.get("email");
   let timer;
   useEffect(() => {
     generateQRCode();
@@ -110,6 +111,8 @@ export default function Qr() {
     return unknittedText;
   }
   const navigate = useNavigate();
+  const email = localStorage.getItem("email");
+
   function validateEmail(email) {
     // Email validation regex pattern
     const emailPattern = /\S+@\S+\.\S+/;
@@ -124,6 +127,22 @@ export default function Qr() {
 
     return () => clearTimeout(timer);
   }, [email, navigate]);
+  const isSmallScreen = window.innerWidth <= 600;
+
+  const textStyle = {
+    fontWeight: "bold",
+    color: "white",
+    fontSize: isSmallScreen ? "18px" : "23px",
+    paddingBottom: isSmallScreen ? "15px" : "30px",
+    paddingLeft: isSmallScreen ? "18px" : "23px",
+  };
+
+  const highlightStyle = {
+    color: "yellow",
+  };
+  // Retrieve the email value from local storage
+  // const email = localStorage.getItem("email");
+
   return (
     <div
       style={{
@@ -141,16 +160,9 @@ export default function Qr() {
       <text style={{ fontWeight: "bold", paddingBottom: 30, color: "white" }}>
         {email}
       </text>
-      <text
-        style={{
-          fontWeight: "bold",
-          color: "white",
-          paddingBottom: 30,
-          fontSize: 23,
-        }}
-      >
-        Scan QR code at Ipads to{" "}
-        <span style={{ color: "yellow" }}>mark attendance</span>
+      <text style={textStyle}>
+        Scan your QR Code at an admin terminal to{" "}
+        <span style={highlightStyle}>mark attendance</span>
       </text>
 
       {qrCodeData && (
