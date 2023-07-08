@@ -36,45 +36,22 @@ export default function Qr() {
 
     return studentInfo;
   };
-
-  function rot13(text) {
+  function derot13(text) {
     return text.replace(/[a-zA-Z]/g, function (c) {
       var charCode = c.charCodeAt(0);
       var base = charCode < 91 ? 65 : 97;
       return String.fromCharCode(((charCode - base + 13) % 26) + base);
     });
   }
-
   function base64Decode(text) {
     return atob(text);
   }
-
-  function unknitString(str) {
-    let result = "";
-    let mid = Math.ceil(str.length / 2);
-    let left = 0;
-    let right = str.length - 1;
-
-    while (left < mid) {
-      if (left === right) {
-        result += str[left];
-      } else {
-        result += str[left] + str[right];
-      }
-      left++;
-      right--;
-    }
-
-    return result;
+  function decryptText(text) {
+    var decodedText = base64Decode(text);
+    var rot13Text = derot13(decodedText);
+    var base64Text = base64Decode(rot13Text);
+    return base64Text;
   }
-
-  // function decryptText(text) {
-  //   var decodedText = base64Decode(text);
-  //   var rot13Text = rot13(decodedText);
-  //   var base64Text = base64Decode(rot13Text);
-  //   var originalText = unknitString(unknitString(base64Text));
-  //   return originalText;
-  // }
   function rot13(text) {
     return text.replace(/[a-zA-Z]/g, function (c) {
       var charCode = c.charCodeAt(0);
@@ -86,27 +63,26 @@ export default function Qr() {
   function base64Encode(text) {
     return btoa(text);
   }
-  function knitString(str) {
-    let result = "";
-    let left = 0;
-    let right = str.length - 1;
+  // function knitString(str) {
+  //   let result = "";
+  //   let left = 0;
+  //   let right = str.length - 1;
 
-    while (left <= right) {
-      if (left === right) {
-        result += str[left];
-      } else {
-        result += str[left] + str[right];
-      }
-      left++;
-      right--;
-    }
+  //   while (left <= right) {
+  //     if (left === right) {
+  //       result += str[left];
+  //     } else {
+  //       result += str[left] + str[right];
+  //     }
+  //     left++;
+  //     right--;
+  //   }
 
-    return result;
-  }
+  //   return result;
+  // }
 
   function encryptText(text) {
-    var knitted = knitString(knitString(text));
-    var base64Text = base64Encode(knitted);
+    var base64Text = base64Encode(text);
     var rot13Text = rot13(base64Text);
     var finalText = base64Encode(rot13Text);
     return finalText;
@@ -145,41 +121,7 @@ export default function Qr() {
   };
   // Retrieve the email value from local storage
   // const email = localStorage.getItem("email");
-  function decryptText(encryptedText) {
-    var decodedRot13Text = atob(encryptedText);
-    var rot13Text = rot13(decodedRot13Text);
-    var decodedBase64Text = atob(rot13Text);
-    var knitted = unknitString(decodedBase64Text);
-    var originalText = unknitString(knitted);
-    return originalText;
-  }
-  function unknitString(str) {
-    var result = "";
-    var length = str.length;
-    var middle = Math.floor(length / 2);
-    var left = 0;
-    var right = length - 1;
 
-    if (length % 2 === 0) {
-      while (left <= middle && right >= middle) {
-        result += str[left] + str[right];
-        left++;
-        right--;
-      }
-    } else {
-      while (left <= right) {
-        if (left === right) {
-          result += str[left];
-        } else {
-          result += str[left] + str[right];
-        }
-        left++;
-        right--;
-      }
-    }
-
-    return result;
-  }
 
   return (
     <div

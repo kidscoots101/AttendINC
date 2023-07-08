@@ -41,31 +41,11 @@ const AttendanceSystem = () => {
       return String.fromCharCode(((charCode - base + 13) % 26) + base);
     });
   }
-
   function base64Encode(text) {
     return btoa(text);
   }
-  function knitString(str) {
-    let result = "";
-    let left = 0;
-    let right = str.length - 1;
-
-    while (left <= right) {
-      if (left === right) {
-        result += str[left];
-      } else {
-        result += str[left] + str[right];
-      }
-      left++;
-      right--;
-    }
-
-    return result;
-  }
-
   function encryptText(text) {
-    var knitted = knitString(knitString(text));
-    var base64Text = base64Encode(knitted);
+    var base64Text = base64Encode(text);
     var rot13Text = rot13(base64Text);
     var finalText = base64Encode(rot13Text);
     return finalText;
