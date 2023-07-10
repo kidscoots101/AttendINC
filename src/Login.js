@@ -85,7 +85,7 @@ const AttendanceSystem = () => {
   // const { setEmail } = useContext(EmailContext);
 
   const responseGoogle = async (response) => {
-    console.log("Login Success", response);
+   // console.log("Login Success", response);
 
     var currentTime = Math.floor(Date.now() / 1000);
     const email = response.profileObj.email;
@@ -98,7 +98,7 @@ const AttendanceSystem = () => {
     setIsLoggedIn(true);
     try {
       await gapi.auth2.getAuthInstance().signIn();
-      console.log(response.profileObj.email + currentTime);
+      // console.log(response.profileObj.email + currentTime);
     } catch (error) {
       console.error("Error signing in:", error);
     }
