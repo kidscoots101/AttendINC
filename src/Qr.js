@@ -24,7 +24,7 @@ export default function Qr() {
   const startTimer = () => {
     setTimeout(() => {
       generateQRCode();
-    }, 2000);
+    }, 3500);
   };
 
   const getStudentInfo = () => {
