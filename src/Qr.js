@@ -31,7 +31,7 @@ export default function Qr() {
     var currentTime = Math.floor(Date.now() / 1000);
     var currentTimetoString = currentTime.toString();
     var finaloutput = encryptText(email + " " + currentTimetoString);
-    console.log(email);
+    console.log("Nah lol u tried to inspect this page u ain't getting nothing.");
     const studentInfo = `${finaloutput}`;
 
     return studentInfo;
