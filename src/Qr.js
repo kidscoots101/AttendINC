@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import QRCode from "react-qr-code";
 import { useLocation, useNavigate } from "react-router-dom";
-import email from "./Login";
+import { QrReader } from 'react-qr-reader';
+
 
 export default function Qr() {
   const [qrCodeData, setQRCodeData] = useState("");
@@ -169,6 +170,19 @@ export default function Qr() {
       <text style={textStyle}>
         Scan your QR Code at an admin terminal to{" "}
         <span style={highlightStyle}>mark attendance</span>
+          <QrReader
+        onResult={(result, error) => {
+          if (!!result) {
+            setData(result?.text);
+          }
+
+          if (!!error) {
+            console.info(error);
+          }
+        }}
+        style={{ width: '100%' }}
+      />
+      <p>{data}</p>
       </text>
 
       {qrCodeData && (
