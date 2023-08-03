@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import QRCode from "react-qr-code";
 import { useLocation, useNavigate } from "react-router-dom";
-import email from "./Login";
+import { QrReader } from 'react-qr-reader';
+
 
 export default function Qr() {
   const [qrCodeData, setQRCodeData] = useState("");
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   // const email = searchParams.get("email");
+  const [data, setData] = useState('No result');
   let timer;
   useEffect(() => {
     generateQRCode();
@@ -169,16 +171,42 @@ export default function Qr() {
       <text style={textStyle}>
         Scan your QR Code at an admin terminal to{" "}
         <span style={highlightStyle}>mark attendance</span>
-      </text>
+        <QrReader
+        onResult={(result, error) => {
+          if (!!result) {
+            setData(result?.text);
+          }
 
+          if (!!error) {
+            console.info(error);
+          }
+        }}
+        style={{ width: '50%' }}
+      />
+      <p>{data}</p>
+      </text>
+     
       {qrCodeData && (
+        <div
+        style={{
+          backgroundColor: "black",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          // Set width or padding/margin to control the size of the QR code
+        }}
+      >
         <QRCode
           value={qrCodeData}
           size={250}
           style={{ backgroundColor: "#000000" }}
           key={qrCodeData}
         />
+        </div>
       )}
+      
     </div>
   );
 }

@@ -1,18 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 // import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import { initializeApp } from "firebase/app";
-import QRCode from "react-qr-code";
 
-import {
-  getAuth,
-  signInWithRedirect,
-  GoogleAuthProvider,
-  getRedirectResult,
-} from "firebase/auth";
 
 const AttendanceSystem = () => {
   const [isLoggedin, setIsLoggedIn] = useState(false);
