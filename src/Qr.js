@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import QRCode from "react-qr-code";
 import { useLocation, useNavigate } from "react-router-dom";
-import email from "./Login";
+import {QrScanner} from '@yudiel/react-qr-scanner';
 
 export default function Qr() {
   const [qrCodeData, setQRCodeData] = useState("");
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   // const email = searchParams.get("email");
+  const [data, setData] = useState('No result');
   let timer;
   useEffect(() => {
     generateQRCode();
@@ -58,8 +59,10 @@ export default function Qr() {
     result = strArray.join("");
   
     return result;
-  };
+  }; 
 
+  const qrCodeLink = "https://www.google.com/q?=" + qrCodeData;
+  // console.log(qrCodeLink)
   function derot13(text) {
     return text.replace(/[a-zA-Z]/g, function (c) {
       var charCode = c.charCodeAt(0);
@@ -169,16 +172,24 @@ export default function Qr() {
       <text style={textStyle}>
         Scan your QR Code at an admin terminal to{" "}
         <span style={highlightStyle}>mark attendance</span>
+        <QrScanner
+          onDecode={(result) => setData(result)}
+          onError={(error) => console.log(error?.message)}
+      />
+      <p>{data}</p>
       </text>
-
+     
       {qrCodeData && (
+        <div style={{height: '100vh'}}>
         <QRCode
-          value={qrCodeData}
+          value={qrCodeLink}
           size={250}
           style={{ backgroundColor: "#000000" }}
-          key={qrCodeData}
+          key={qrCodeLink}
         />
+        </div>
       )}
+      
     </div>
   );
 }
