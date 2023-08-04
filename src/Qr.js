@@ -28,6 +28,16 @@ export default function Qr() {
     }, 3500);
   };
 
+  function sendToFirebase(UUID, timeOnQRCode) {
+    const db = getFirestore(app);
+    setDoc(doc(db, "attendance", UUID)), {
+      email: userEmail,
+      timetimeOfPost: Date.now(),
+      timeOnQRCode: timeOnQRCode
+    }
+    console.log("success!!")
+  };
+
   const getStudentInfo = () => {
     var currentTime = Math.floor(Date.now() / 1000);
     var currentTimetoString = currentTime.toString();
