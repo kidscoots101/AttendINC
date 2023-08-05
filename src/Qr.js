@@ -191,7 +191,7 @@ export default function Qr() {
 
     const attendanceRef = await addDoc(collection(db, 'attendance', parts[1], "attendances"), {
       email: email,
-      timeOfPost: Number(Number(Date.now()) / 1000),
+      timeOfPost: Number(Date.now()),
       timeOnQRCode: Number(parts[2])
     });
     
