@@ -36,7 +36,7 @@ export default function Qr() {
     var currentTime = Math.floor(Date.now() / 1000);
     var currentTimetoString = currentTime.toString();
     var finaloutput = encryptText(email + " " + currentTimetoString);
-    console.log("Nah lol u tried to inspect this page u ain't getting nothing.");
+    // console.log("Nah lol u tried to inspect this page u ain't getting nothing.");
     const studentInfo = `${finaloutput}`;
 
     return studentInfo;
@@ -182,22 +182,35 @@ export default function Qr() {
   const navigate = useNavigate();
   const nemail = localStorage.getItem("email");
   const email = decryptText(nemail);
- 
+  const [isScanned, setIsScanned] = useState(false);
   async function sendToFirebase(qrResult) {
     const decrypted_text = decryptText(qrResult)
     const parts = decrypted_text.split('---');
 
-    const attendanceRef = await addDoc(collection(db, 'attendance', parts[1], "attendances"), {
+    const timeOnQRCode = Number(parts[2])
+    const attendanceRef = await addDoc(collection(db, 'attendance', parts[2], "attendances"), {
       email: email,
       timetimeOfPost: Number(Date.now()),
-      timeOnQRCode: Number(parts[3])
+      timeOnQRCode: Number(parts[2])
     });
-    console.log(decrypted_text)
+    
+    
+    console.log(attendanceRef.email)
     setTimeout(function() {
     }, 15000);
-
   };
   
+  function sendtoFirebaseAlert(qrResult) {
+    setIsScanned(true); // Set the isScanned state to true after scanning
+
+    const confirmResponse = window.confirm("You have scanned the QR code. Do you want to scan again?");
+    if (confirmResponse) {
+      // If the user clicks "OK"/"Yes", reset the scanner and allow scanning again
+      setIsScanned(true);
+      sendToFirebase(qrResult)
+      console.log("Sent to firebase!")
+    }
+  }
 
   function validateEmail(email) {
     // Email validation regex pattern
@@ -250,7 +263,7 @@ export default function Qr() {
         <span style={highlightStyle}>mark your attendance</span>
         <QrScanner
         
-          onDecode={(result) => [setData(email), sendToFirebase(result)]}
+          onDecode={(result) => [setData(email), sendtoFirebaseAlert(result)]}
 
           onError={(error) => console.log(error?.message)}
       />
@@ -259,4 +272,4 @@ export default function Qr() {
       
     </div>
   );
-}
+    }
