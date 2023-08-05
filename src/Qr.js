@@ -189,11 +189,10 @@ export default function Qr() {
     console.log(parts[0])
 
 
-    const timeOnQRCode = Number(parts[2])
     const attendanceRef = await addDoc(collection(db, 'attendance', parts[1], "attendances"), {
       email: email,
       timetimeOfPost: Number(Date.now()),
-      timeOnQRCode: Number(parts[1])
+      timeOnQRCode: Number(parts[2])
     });
     
     
