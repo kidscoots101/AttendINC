@@ -189,26 +189,33 @@ export default function Qr() {
     console.log(parts[0])
 
 
+    const timeOnQRCode = Number(parts[2])
     const attendanceRef = await addDoc(collection(db, 'attendance', parts[1], "attendances"), {
       email: email,
       timetimeOfPost: Number(Date.now()),
-      timeOnQRCode: Number(parts[2])
+      timeOnQRCode: Number(parts[1])
     });
     
     
     setTimeout(function() {
     }, 15000);
   };
+
+  const [isCameraActive, setCameraActive] = useState(true); // State variable to track camera activity
   
   function sendtoFirebaseAlert(qrResult) {
     setIsScanned(true); // Set the isScanned state to true after scanning
     const decrypted_text = decryptText(qrResult)
     const parts = decrypted_text.split('---');
+
+    setCameraActive(false); 
+
     const confirmResponse = window.confirm(`You are taking attendance for the ${parts[0]}`);
     if (confirmResponse) {
       setIsScanned(true);
       sendToFirebase(qrResult)
       console.log("Sent to firebase!")
+      // setCameraActive(true)
     }
   }
 
@@ -261,12 +268,14 @@ export default function Qr() {
       <text style={textStyle}>
         Scan the QR Code on the screen to{" "}
         <span style={highlightStyle}>mark your attendance</span>
+        {isCameraActive && (
         <QrScanner
         
           onDecode={(result) => [setData(email), sendtoFirebaseAlert(result)]}
 
           onError={(error) => console.log(error?.message)}
       />
+      )}
       <p>{data}</p>
       </text>
       
