@@ -2,6 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 import QRCode from "react-qr-code";
 import { useLocation, useNavigate } from "react-router-dom";
 import {QrScanner} from '@yudiel/react-qr-scanner';
+import { getFirestore } from "firebase/firestore";
+import { collection, addDoc} from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+
 
 export default function Qr() {
   const [qrCodeData, setQRCodeData] = useState("");
@@ -119,9 +123,81 @@ export default function Qr() {
     return finalText;
   }
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyDSaQQGTab4XkyTDcVxA4s07m3N8KlYD7k",
+    authDomain: "https://incterminal-88156.web.app/",
+    projectId: "incterminal-88156",
+    storageBucket: "incterminal-88156.appspot.com",
+    messagingSenderId: "635818492905",
+    appId: "1:635818492905:web:8f321bbe5bef7800078178",
+    measurementId: "G-0VY14L4ZM9",
+  };
+
+
+  function unknitString(str) {
+    let result = "";
+    let index;
+    let strArray = str.split("");
+  
+    if (str.length % 2 === 0) {
+      index = str.length - 1;
+    } else {
+      index = str.length - 2;
+    }
+  
+    while (index > 0) {
+      strArray.push(strArray[index]);
+      strArray[index] = "";
+  
+      index -= 2;
+    }
+  
+    result = strArray.join("");
+  
+    return result;
+  };
+
+  function derot13(text) {
+    return text.replace(/[a-zA-Z]/g, function (c) {
+      var charCode = c.charCodeAt(0);
+      var base = charCode < 91 ? 65 : 97;
+      return String.fromCharCode(((charCode - base + 13) % 26) + base);
+    });
+  }
+  function base64Decode(text) {
+    return atob(text);
+  }
+  function decryptText(text) {
+    var decodedText = base64Decode(text);
+    var rot13Text = derot13(decodedText);
+    var base64Text = base64Decode(rot13Text);
+    var final = unknitString(unknitString(base64Text))
+    return final;
+  }
+
+  const app = initializeApp(firebaseConfig);
+
+  const db = getFirestore(app);
+
   const navigate = useNavigate();
   const nemail = localStorage.getItem("email");
   const email = decryptText(nemail);
+ 
+  async function sendToFirebase(qrResult) {
+    const decrypted_text = decryptText(qrResult)
+    const parts = decrypted_text.split('---');
+
+    const attendanceRef = await addDoc(collection(db, 'attendance', parts[1], "attendances"), {
+      email: email,
+      timetimeOfPost: Number(Date.now()),
+      timeOnQRCode: Number(parts[3])
+    });
+    console.log(decrypted_text)
+    setTimeout(function() {
+    }, 15000);
+
+  };
+  
 
   function validateEmail(email) {
     // Email validation regex pattern
@@ -173,22 +249,13 @@ export default function Qr() {
         Scan your QR Code at an admin terminal to{" "}
         <span style={highlightStyle}>mark attendance</span>
         <QrScanner
-          onDecode={(result) => setData(result)}
+        
+          onDecode={(result) => [setData(email), sendToFirebase(result)]}
+
           onError={(error) => console.log(error?.message)}
       />
       <p>{data}</p>
       </text>
-     
-      {qrCodeData && (
-        <div style={{height: '100vh'}}>
-        <QRCode
-          value={qrCodeLink}
-          size={250}
-          style={{ backgroundColor: "#000000" }}
-          key={qrCodeLink}
-        />
-        </div>
-      )}
       
     </div>
   );
