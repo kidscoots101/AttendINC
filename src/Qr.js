@@ -285,7 +285,7 @@ export default function Qr() {
           fontSize: isSmallScreen ? "18px" : "23px",
           paddingBottom: isSmallScreen ? "15px" : "30px",
           paddingLeft: isSmallScreen ? "18px" : "23px",
-      }}>Attendnace Taken!</text>
+      }}>Attendance has been taken! Thank you for keeping SST Inc. #INCredible</text>
 
       )}
       
