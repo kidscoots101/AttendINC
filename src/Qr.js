@@ -287,8 +287,10 @@ export default function Qr() {
             textAlign: "center",
           }}
         >
-          Attendance submitted! Please check the QR Code terminal to ensure that
-          it was successful taken.{"\n"}{"\n"}Thank you for keeping SST Inc. #INCredible
+          `Attendance submitted! Please check the QR Code terminal to ensure that
+          it was successful taken.
+          
+          Thank you for keeping SST Inc. #INCredible`
         </text>
       )}
     </div>
