@@ -277,6 +277,7 @@ export default function Qr() {
           <p>{data}</p>
         </text>
       ) : (
+        <div>
         <text
           style={{
             fontWeight: "bold",
@@ -287,11 +288,23 @@ export default function Qr() {
             textAlign: "center",
           }}
         >
-          `Attendance submitted! Please check the QR Code terminal to ensure that
-          it was successful taken.
-          
-          Thank you for keeping SST Inc. #INCredible`
+          Attendance submitted! Please check the QR Code terminal to ensure that
+          it was successful taken. <br /><br />
         </text>
+
+        <text
+        style={{
+          fontWeight: "bold",
+          color: "yellow",
+          fontSize: isSmallScreen ? "18px" : "23px",
+          paddingBottom: isSmallScreen ? "15px" : "30px",
+          paddingLeft: isSmallScreen ? "18px" : "23px",
+          textAlign: "center",
+        }}
+        >
+          Thank you for keeping SST Inc. #INCredible
+        </text>
+        </div>
       )}
     </div>
   );
