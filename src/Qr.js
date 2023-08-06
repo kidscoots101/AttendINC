@@ -11,7 +11,6 @@ export default function Qr() {
   const [qrCodeData, setQRCodeData] = useState("");
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  // const email = searchParams.get("email");
   const [data, setData] = useState('No result');
   let timer;
   useEffect(() => {
@@ -36,14 +35,11 @@ export default function Qr() {
     var currentTime = Math.floor(Date.now() / 1000);
     var currentTimetoString = currentTime.toString();
     var finaloutput = KKBRB(email + " " + currentTimetoString);
-    // console.log("Nah lol u tried to inspect this page u ain't getting nothing.");
     const studentInfo = `${finaloutput}`;
 
     return studentInfo;
   };
 
-  const qrCodeLink = "https://www.google.com/q?=" + qrCodeData;
-  // console.log(qrCodeLink)
   function derot13(text) {
     return text.replace(/[a-zA-Z]/g, function (c) {
       var charCode = c.charCodeAt(0);
@@ -166,10 +162,10 @@ export default function Qr() {
     }, 15000);
   };
 
-  const [isCameraActive, setCameraActive] = useState(true); // State variable to track camera activity
+  const [isCameraActive, setCameraActive] = useState(true);
   
   function sendtoFirebaseAlert(qr) {
-    setIsScanned(true); // Set the isScanned state to true after scanning
+    setIsScanned(true); 
     const unKKBRBInfo = unKKBRB(qr)
     const parts = unKKBRBInfo.split(process.env.REACT_APP_unKKBRBInfoSplitter);
 
@@ -180,12 +176,10 @@ export default function Qr() {
       setIsScanned(true);
       sendToFirebase(qr, timeNow)
       setCameraActive(false); 
-      // setCameraActive(true)
     }
   }
 
   function validateEmail(email) {
-    // Email validation regex pattern
     const emailPattern = /\S+@\S+\.\S+/;
     return emailPattern.test(email);
   }
