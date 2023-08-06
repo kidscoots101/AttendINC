@@ -289,8 +289,10 @@ export default function Qr() {
           }}
         >
           Attendance submitted! Please check the QR Code terminal to ensure that
-          it was successful taken. <br /><br />
+          it was successful taken.
         </text>
+
+        <text><br /><br /></text>
 
         <text
         style={{
