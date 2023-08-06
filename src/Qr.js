@@ -287,7 +287,7 @@ export default function Qr() {
           paddingBottom: isSmallScreen ? "15px" : "30px",
           paddingLeft: isSmallScreen ? "18px" : "23px",
           textAlign: 'center',
-      }}>Attendance submitted! Please check the QR Code terminal to ensure that it was successful taken. Thank you for keeping SST Inc. #INCredible</text>
+      }}>Attendance submitted! Please check the QR Code terminal to ensure that it was successful taken.\n\nThank you for keeping SST Inc. #INCredible</text>
 
       )}
       
