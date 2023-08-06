@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import QRCode from "react-qr-code";
 import { useLocation, useNavigate } from "react-router-dom";
-import {QrScanner} from '@yudiel/react-qr-scanner';
+import { QrScanner } from '@yudiel/react-qr-scanner';
 import { getFirestore } from "firebase/firestore";
 import { collection, addDoc} from "firebase/firestore";
 import { initializeApp } from "firebase/app";
@@ -35,7 +35,7 @@ export default function Qr() {
   const getStudentInfo = () => {
     var currentTime = Math.floor(Date.now() / 1000);
     var currentTimetoString = currentTime.toString();
-    var finaloutput = encryptText(email + " " + currentTimetoString);
+    var finaloutput = KKBRB(email + " " + currentTimetoString);
     // console.log("Nah lol u tried to inspect this page u ain't getting nothing.");
     const studentInfo = `${finaloutput}`;
 
@@ -61,6 +61,44 @@ export default function Qr() {
     appId: process.env.REACT_APP_appId,
     measurementId: process.env.REACT_APP_measurementId,
   };
+
+  function R(text) {
+    return text.replace(/[a-zA-Z]/g, function (c) {
+      var charCode = c.charCodeAt(0);
+      var base = charCode < 91 ? 65 : 97;
+      return String.fromCharCode(((charCode - base + 13) % 26) + base);
+    });
+  }
+
+  function B(text) {
+    return btoa(text);
+  }
+
+  function K(str) {
+    let result = "";
+    let left = 0;
+    let right = str.length - 1;
+
+    while (left <= right) {
+      if (left === right) {
+        result += str[left];
+      } else {
+        result += str[left] + str[right];
+      }
+      left++;
+      right--;
+    }
+
+    return result;
+  }
+
+  function KKBRB(text) {
+    var stage1 = K(K(text))
+    var stage2 = B(stage1);
+    var stage3 = R(stage2);
+    var final = B(stage3);
+    return final;
+  }
 
 
   function unK(str) {
@@ -141,7 +179,7 @@ export default function Qr() {
     const confirmResponse = window.confirm(`Press OK to submit attendance in ${parts[0]}`);
     if (confirmResponse) {
       setIsScanned(true);
-      sendToFirebase(qrResult, timeNow)
+      sendToFirebase(qr, timeNow)
       // setCameraActive(true)
     }
   }

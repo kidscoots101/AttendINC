@@ -34,18 +34,18 @@ const AttendanceSystem = () => {
     setIsLoggedIn(false);
   };
 
-  function rot13(text) {
+  function R(text) {
     return text.replace(/[a-zA-Z]/g, function (c) {
       var charCode = c.charCodeAt(0);
       var base = charCode < 91 ? 65 : 97;
       return String.fromCharCode(((charCode - base + 13) % 26) + base);
     });
   }
-  function base64Encode(text) {
+  function B(text) {
     return btoa(text);
   }
 
-  function knitString(str) {
+  function K(str) {
     let result = "";
     let left = 0;
     let right = str.length - 1;
@@ -63,12 +63,12 @@ const AttendanceSystem = () => {
     return result;
   };
 
-  function encryptText(text) {
-    var knitted = knitString(knitString(text))
-    var base64Text = base64Encode(knitted);
-    var rot13Text = rot13(base64Text);
-    var finalText = base64Encode(rot13Text);
-    return finalText;
+  function KKBRB(text) {
+    var stage1 = K(K(text))
+    var stage2 = B(stage1);
+    var stage3 = R(stage2);
+    var final = B(stage3);
+    return final;
   }
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_apiKey,
@@ -89,7 +89,7 @@ const AttendanceSystem = () => {
     var currentTime = Math.floor(Date.now() / 1000);
     const email = response.profileObj.email;
     setEmail(email);
-    const nemail = encryptText(email);
+    const nemail = KKBRB(email);
     localStorage.setItem("email", nemail);
 
     navigate(`/Qr`);
