@@ -42,29 +42,6 @@ export default function Qr() {
     return studentInfo;
   };
 
-  function unknitString(str) {
-    let result = "";
-    let index;
-    let strArray = str.split("");
-  
-    if (str.length % 2 === 0) {
-      index = str.length - 1;
-    } else {
-      index = str.length - 2;
-    }
-  
-    while (index > 0) {
-      strArray.push(strArray[index]);
-      strArray[index] = "";
-  
-      index -= 2;
-    }
-  
-    result = strArray.join("");
-  
-    return result;
-  }; 
-
   const qrCodeLink = "https://www.google.com/q?=" + qrCodeData;
   // console.log(qrCodeLink)
   function derot13(text) {
@@ -73,54 +50,6 @@ export default function Qr() {
       var base = charCode < 91 ? 65 : 97;
       return String.fromCharCode(((charCode - base + 13) % 26) + base);
     });
-  }
-  function base64Decode(text) {
-    return atob(text);
-  }
-  function decryptText(text) {
-    var decodedText = base64Decode(text);
-    var rot13Text = derot13(decodedText);
-    var base64Text = base64Decode(rot13Text);
-    var final = unknitString(unknitString(base64Text))
-    return final;
-  }
-
-  function rot13(text) {
-    return text.replace(/[a-zA-Z]/g, function (c) {
-      var charCode = c.charCodeAt(0);
-      var base = charCode < 91 ? 65 : 97;
-      return String.fromCharCode(((charCode - base + 13) % 26) + base);
-    });
-  }
-
-  function base64Encode(text) {
-    return btoa(text);
-  }
-
-  function knitString(str) {
-    let result = "";
-    let left = 0;
-    let right = str.length - 1;
-
-    while (left <= right) {
-      if (left === right) {
-        result += str[left];
-      } else {
-        result += str[left] + str[right];
-      }
-      left++;
-      right--;
-    }
-
-    return result;
-  }
-
-  function encryptText(text) {
-    var knitted = knitString(knitString(text))
-    var base64Text = base64Encode(knitted);
-    var rot13Text = rot13(base64Text);
-    var finalText = base64Encode(rot13Text);
-    return finalText;
   }
 
   const firebaseConfig = {
@@ -134,7 +63,7 @@ export default function Qr() {
   };
 
 
-  function unknitString(str) {
+  function unK(str) {
     let result = "";
     let index;
     let strArray = str.split("");
@@ -157,21 +86,21 @@ export default function Qr() {
     return result;
   };
 
-  function derot13(text) {
+  function unR(text) {
     return text.replace(/[a-zA-Z]/g, function (c) {
       var charCode = c.charCodeAt(0);
       var base = charCode < 91 ? 65 : 97;
       return String.fromCharCode(((charCode - base + 13) % 26) + base);
     });
   }
-  function base64Decode(text) {
+  function unB(text) {
     return atob(text);
   }
-  function decryptText(text) {
-    var decodedText = base64Decode(text);
-    var rot13Text = derot13(decodedText);
-    var base64Text = base64Decode(rot13Text);
-    var final = unknitString(unknitString(base64Text))
+  function unKKBRB(text) {
+    var stage1 = unB(text);
+    var stage2 = unR(stage1);
+    var stage3 = unB(stage2);
+    var final = unK(unK(stage3))
     return final;
   }
 
@@ -181,15 +110,14 @@ export default function Qr() {
 
   const navigate = useNavigate();
   const nemail = localStorage.getItem("email");
-  const email = decryptText(nemail);
+  const email = unKKBRB(nemail);
   const [isScanned, setIsScanned] = useState(false);
-  async function sendToFirebase(qrResult, timeNow) {
-    const decrypted_text = decryptText(qrResult)
-    const parts = decrypted_text.split('---');
-    console.log(parts[0])
+  async function sendToFirebase(qr, timeNow) {
+    const unKKBRBInfo = unKKBRB(qr)
+    const parts = unKKBRBInfo.split(process.env.REACT_APP_unKKBRBInfoSplitter);
 
 
-    const attendanceRef = await addDoc(collection(db, 'attendance', parts[1], "attendances"), {
+    const attendanceRef = await addDoc(collection(db, process.env.REACT_APP_firebaseRootCollection, parts[1], process.env.REACT_APP_firebaseDocumentCollection), {
       email: email,
       timeOfPost: timeNow,
       timeOnQRCode: Number(parts[2])
@@ -202,19 +130,18 @@ export default function Qr() {
 
   const [isCameraActive, setCameraActive] = useState(true); // State variable to track camera activity
   
-  function sendtoFirebaseAlert(qrResult) {
+  function sendtoFirebaseAlert(qr) {
     setIsScanned(true); // Set the isScanned state to true after scanning
-    const decrypted_text = decryptText(qrResult)
-    const parts = decrypted_text.split('---');
+    const unKKBRBInfo = unKKBRB(qr)
+    const parts = unKKBRBInfo.split(process.env.REACT_APP_unKKBRBInfoSplitter);
 
     setCameraActive(false); 
 
     const timeNow = Number(Date.now())
-    const confirmResponse = window.confirm(`You are taking attendance for the ${parts[0]}`);
+    const confirmResponse = window.confirm(`Press OK to submit attendance in ${parts[0]}`);
     if (confirmResponse) {
       setIsScanned(true);
       sendToFirebase(qrResult, timeNow)
-      console.log("Sent to firebase!")
       // setCameraActive(true)
     }
   }
@@ -270,7 +197,7 @@ export default function Qr() {
       {isCameraActive ? (
         <text style={textStyle}>
           Scan the QR Code on the screen to{" "}
-          <span style={highlightStyle}>mark your attendance</span>
+          <span style={highlightStyle}>submit your attendance</span>
           <QrScanner
             onDecode={(result) => [setData(email), sendtoFirebaseAlert(result)]}
             onError={(error) => console.log(error?.message)}

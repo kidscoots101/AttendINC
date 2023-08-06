@@ -131,7 +131,7 @@ const AttendanceSystem = () => {
           textAlign: 'center',
         }}
       >
-        Please log in using your SST School email for attendance taking.
+        Please log in with your SST School email to submit your attendance.
       </text>
       <GoogleLogin
         clientId={process.env.REACT_APP_clientID}
