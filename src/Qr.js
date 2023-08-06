@@ -173,13 +173,13 @@ export default function Qr() {
     const unKKBRBInfo = unKKBRB(qr)
     const parts = unKKBRBInfo.split(process.env.REACT_APP_unKKBRBInfoSplitter);
 
-    setCameraActive(false); 
-
+    
     const timeNow = Number(Date.now())
     const confirmResponse = window.confirm(`Press OK to submit attendance in ${parts[0]}`);
     if (confirmResponse) {
       setIsScanned(true);
       sendToFirebase(qr, timeNow)
+      setCameraActive(false); 
       // setCameraActive(true)
     }
   }
