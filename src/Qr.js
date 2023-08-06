@@ -183,7 +183,7 @@ export default function Qr() {
   const nemail = localStorage.getItem("email");
   const email = decryptText(nemail);
   const [isScanned, setIsScanned] = useState(false);
-  async function sendToFirebase(qrResult) {
+  async function sendToFirebase(qrResult, timeNow) {
     const decrypted_text = decryptText(qrResult)
     const parts = decrypted_text.split('---');
     console.log(parts[0])
@@ -191,7 +191,7 @@ export default function Qr() {
 
     const attendanceRef = await addDoc(collection(db, 'attendance', parts[1], "attendances"), {
       email: email,
-      timeOfPost: Number(Date.now()),
+      timeOfPost: timeNow,
       timeOnQRCode: Number(parts[2])
     });
     
@@ -209,10 +209,11 @@ export default function Qr() {
 
     setCameraActive(false); 
 
+    const timeNow = Number(Date.now())
     const confirmResponse = window.confirm(`You are taking attendance for the ${parts[0]}`);
     if (confirmResponse) {
       setIsScanned(true);
-      sendToFirebase(qrResult)
+      sendToFirebase(qrResult, timeNow)
       console.log("Sent to firebase!")
       // setCameraActive(true)
     }
