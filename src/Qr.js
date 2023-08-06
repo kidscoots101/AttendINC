@@ -259,38 +259,40 @@ export default function Qr() {
         height: "100vh",
       }}
     >
-              <text style={{ fontWeight: "bold", color: "white" }}>
-              Logged in with: <br />
-            </text>
-      
+      <text style={{ fontWeight: "bold", color: "white" }}>
+        Logged in with: <br />
+      </text>
 
       <text style={{ fontWeight: "bold", paddingBottom: 30, color: "white" }}>
         {email}
       </text>
       {isCameraActive ? (
-      <text style={textStyle}>
-            Scan the QR Code on the screen to{" "}
-      <span style={highlightStyle}>mark your attendance</span>
-
-        <QrScanner       
-        
-          onDecode={(result) => [setData(email), sendtoFirebaseAlert(result)]}
-
-          onError={(error) => console.log(error?.message)}
-      />
-        <p>{data}</p>
-      </text>
+        <text style={textStyle}>
+          Scan the QR Code on the screen to{" "}
+          <span style={highlightStyle}>mark your attendance</span>
+          <QrScanner
+            onDecode={(result) => [setData(email), sendtoFirebaseAlert(result)]}
+            onError={(error) => console.log(error?.message)}
+          />
+          <p>{data}</p>
+        </text>
       ) : (
-          <text style={{    fontWeight: "bold",
-          color: "yellow",
-          fontSize: isSmallScreen ? "18px" : "23px",
-          paddingBottom: isSmallScreen ? "15px" : "30px",
-          paddingLeft: isSmallScreen ? "18px" : "23px",
-          textAlign: 'center',
-      }}>Attendance submitted! Please check the QR Code terminal to ensure that it was successful taken.\n\nThank you for keeping SST Inc. #INCredible</text>
+        <text
+          style={{
+            fontWeight: "bold",
+            color: "yellow",
+            fontSize: isSmallScreen ? "18px" : "23px",
+            paddingBottom: isSmallScreen ? "15px" : "30px",
+            paddingLeft: isSmallScreen ? "18px" : "23px",
+            textAlign: "center",
+          }}
+        >
+          Attendance submitted! Please check the QR Code terminal to ensure that
+          it was successful taken.
 
+          Thank you for keeping SST Inc. #INCredible
+        </text>
       )}
-      
     </div>
   );
     }
