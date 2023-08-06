@@ -240,6 +240,7 @@ export default function Qr() {
     fontSize: isSmallScreen ? "18px" : "23px",
     paddingBottom: isSmallScreen ? "15px" : "30px",
     paddingLeft: isSmallScreen ? "18px" : "23px",
+    textAlign: 'center',
   };
 
   const highlightStyle = {
@@ -285,6 +286,7 @@ export default function Qr() {
           fontSize: isSmallScreen ? "18px" : "23px",
           paddingBottom: isSmallScreen ? "15px" : "30px",
           paddingLeft: isSmallScreen ? "18px" : "23px",
+          textAlign: 'center',
       }}>Attendance submitted! Please check the QR Code terminal to ensure that it was successful taken. Thank you for keeping SST Inc. #INCredible</text>
 
       )}

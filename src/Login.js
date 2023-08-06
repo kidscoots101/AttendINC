@@ -129,6 +129,7 @@ const AttendanceSystem = () => {
           marginBottom: 25,
           paddingRight: 20,
           paddingLeft: 20,
+          textAlign: 'center',
         }}
       >
         Please log in using your SST School email for attendance taking.
@@ -155,7 +156,7 @@ const AttendanceSystem = () => {
           fontFamily: "'Titillium Web', sans-serif",
         }}
       >
-        Created with ❤️ by 2023 ExCo members
+        Developed with ❤️ by 2023 exco members
       </text>
     </div>
   );
