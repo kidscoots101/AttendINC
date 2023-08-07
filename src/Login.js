@@ -5,7 +5,7 @@ import { gapi } from "gapi-script";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { initializeApp } from "firebase/app";
-import QRCode from "react-qr-code";
+import logo from './inc.png'
 
 import {
   getAuth,
@@ -111,14 +111,22 @@ const AttendanceSystem = () => {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
-        backgroundColor: "black",
+        backgroundColor: "#1D1D20",
       }}
     >
       {}
+      <link
+        href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600&display=swap"
+        rel="stylesheet"
+      />
+            <img src={logo} alt="Logo" style={{height: 40}}/>
 
       <h1 style={{ color: "white", fontFamily: "'Titillium Web', sans-serif" }}>
         AttendINC
       </h1>
+      <text style={{ color: "white", fontFamily: "'Titillium Web', sans-serif", marginTop: -20, marginBottom: 15 }}>
+        attendance made efficient
+      </text>
       <text
         style={{
           fontFamily: "'Titillium Web', sans-serif",
@@ -155,8 +163,9 @@ const AttendanceSystem = () => {
           fontFamily: "'Titillium Web', sans-serif",
         }}
       >
-        Developed with ❤️ by 2023 exco members
+        developed with ❤️ by 2023 exco members
       </text>
+
     </div>
   );
 };
