@@ -211,7 +211,7 @@ export default function Qr() {
   return (
     <div
       style={{
-        backgroundColor: "black",
+        backgroundColor: "#1D1D20",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
