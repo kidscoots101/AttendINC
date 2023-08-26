@@ -13,6 +13,7 @@ import {
   GoogleAuthProvider,
   getRedirectResult,
 } from "firebase/auth";
+import Qr from "./Qr";
 
 const AttendanceSystem = () => {
   const [isLoggedin, setIsLoggedIn] = useState(false);
@@ -26,6 +27,12 @@ const AttendanceSystem = () => {
   //     // window.location.href = "/Qr.js";
   //   };
   useEffect(() => {
+
+    const isLoggedInLocalStorage = localStorage.getItem("isLoggedIn");
+  if (isLoggedInLocalStorage === "true") {
+    setIsLoggedIn(true);
+  }
+
     gapi.load("client:auth2", () => {
       gapi.auth2.init({ clientId: clientId });
     });
@@ -92,6 +99,12 @@ const AttendanceSystem = () => {
     const nemail = KKBRB(email);
     localStorage.setItem("email", nemail);
 
+    setIsLoggedIn(true);
+
+
+  localStorage.setItem("isLoggedIn", "true");
+  localStorage.setItem("email", nemail);
+
     navigate(`/Qr`);
     // setEmail(response.profileObj.email);
     setIsLoggedIn(true);
@@ -103,6 +116,10 @@ const AttendanceSystem = () => {
     }
   };
   return (
+    <div>
+      {isLoggedin ? (
+      <Qr />
+      ) : (
     <div
       className="qr"
       style={{
@@ -114,7 +131,6 @@ const AttendanceSystem = () => {
         backgroundColor: "#1D1D20",
       }}
     >
-      {}
       <link
         href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600&display=swap"
         rel="stylesheet"
@@ -167,6 +183,9 @@ const AttendanceSystem = () => {
       </text>
 
     </div>
+    )}
+    </div>
+
   );
 };
 
