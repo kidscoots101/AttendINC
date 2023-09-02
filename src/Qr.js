@@ -215,6 +215,7 @@ export default function Qr() {
       const qrInfo = searchParams.get("QR INFO");
       if (qrInfo) {
         sendtoFirebaseAlert(qrInfo); 
+        console.log("Works")
       }
     }
   
