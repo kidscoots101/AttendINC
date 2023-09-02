@@ -212,20 +212,10 @@ export default function Qr() {
   const configParam = new URLSearchParams(qr_location.search);
 
 
-  function sendtofirebaseconfig(qr) {
-    if (configParam !== '') {
-      sendtoFirebaseAlert(configParam)
-    }
-    else if (configParam == '') {
-      sendtoFirebaseAlert(qr)
-    }
-  }
-
   useEffect(() => {
-    var garbage = "" + configParam
-    garbage.slice(1)
+    const garbage = "" + configParam
     if (garbage != "") {
-      sendtoFirebaseAlert(garbage);
+      sendtoFirebaseAlert(garbage.slice(1));
     }
   }, []);
 
@@ -253,8 +243,12 @@ export default function Qr() {
           Scan the QR Code on the screen to{" "} 
           <span style={highlightStyle}>submit your attendance</span>
           <QrScanner
-            onDecode={(result) => [setData(email), sendtoFirebaseAlert(result)]}
-            onError={(error) => console.log(error?.message)}
+            onDecode={(result) => {
+              const qrCodeData = result.substring(result.lastIndexOf('/') + 1); 
+              setData(email);
+              sendtoFirebaseAlert(qrCodeData);
+            }}  
+          onError={(error) => console.log(error?.message)}
           />
           <p>{data}</p>
         </text>
