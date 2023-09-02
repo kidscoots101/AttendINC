@@ -21,6 +21,8 @@ export default function Qr() {
 
   const generateQRCode = () => {
     const studentInfo = getStudentInfo();
+
+    const encryptedURL = searchParams.get("QR_INFO");
     setQRCodeData(studentInfo);
     startTimer();
   };
@@ -38,6 +40,14 @@ export default function Qr() {
     const studentInfo = `${finaloutput}`;
 
     return studentInfo;
+  };
+  const handleQRScan = (result) => {
+    if (result) {
+      // Extract QR_INFO from the scanned URL
+      const urlSearchParams = new URLSearchParams(result);
+      const QR_INFO = urlSearchParams.get("QR_INFO");
+      sendtoFirebaseAlert(QR_INFO);
+    }
   };
 
   function derot13(text) {
@@ -206,16 +216,7 @@ export default function Qr() {
   const highlightStyle = {
     color: "yellow",
   };
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const qrInfo = searchParams.get("qrInfo");
-
-    if (qrInfo) {
-      sendtoFirebaseAlert(qrInfo);
-    } else {
-      generateQRCode();
-    }
-  }, [location.search]);
+  
 
 
   return (
@@ -241,7 +242,7 @@ export default function Qr() {
           Scan the QR Code on the screen to{" "}
           <span style={highlightStyle}>submit your attendance</span>
           <QrScanner
-            onDecode={(result) => [setData(email), sendtoFirebaseAlert(result)]}
+            onDecode={(result) => [setData(email), handleQRScan(result)]}
             onError={(error) => console.log(error?.message)}
           />
           <p>{data}</p>
