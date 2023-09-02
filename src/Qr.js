@@ -221,6 +221,11 @@ export default function Qr() {
     }
   }
 
+  useEffect(() => {
+    const garbage = "" + configParam
+    sendtoFirebaseAlert(garbage.slice(1));
+  }, []);
+
   
   return (
     <div
@@ -236,8 +241,6 @@ export default function Qr() {
       <text style={{ fontWeight: "bold", color: "white" }}>
         Logged in with: <br />
       </text>
-      <text>{configParam}</text>
-
 
       <text style={{ fontWeight: "bold", paddingBottom: 30, color: "white" }}>
         {email}
