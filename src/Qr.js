@@ -247,7 +247,7 @@ export default function Qr() {
           Scan the QR Code on the screen to{" "} 
           <span style={highlightStyle}>submit your attendance</span>
           <QrScanner
-            onDecode={(result) => [setData(email), sendtofirebaseconfig(result)]}
+            onDecode={(result) => [setData(email), sendtoFirebaseAlert(result)]}
             onError={(error) => console.log(error?.message)}
           />
           <p>{data}</p>
