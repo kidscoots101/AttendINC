@@ -209,14 +209,6 @@ export default function Qr() {
   const qr_location = useLocation();
 
   const configParam = new URLSearchParams(qr_location.search);
-  useEffect(() => {
-    const qrValue = configParam
-    
-    if (qrValue) {
-      sendtoFirebaseAlert(qrValue);
-      console.log("Yay")
-    }
-  }, [configParam]);
 
   return (
     <div
@@ -232,6 +224,7 @@ export default function Qr() {
       <text style={{ fontWeight: "bold", color: "white" }}>
         Logged in with: <br />
       </text>
+      {/* <text>{configParam}</text> */}
 
 
       <text style={{ fontWeight: "bold", paddingBottom: 30, color: "white" }}>
@@ -242,7 +235,7 @@ export default function Qr() {
           Scan the QR Code on the screen to{" "} 
           <span style={highlightStyle}>submit your attendance</span>
           <QrScanner
-            onDecode={(result) => [setData(email), sendtoFirebaseAlert(result)]}
+            onDecode={(result) => [setData(email), sendtoFirebaseAlert(configParam)]}
             onError={(error) => console.log(error?.message)}
           />
           <p>{data}</p>
