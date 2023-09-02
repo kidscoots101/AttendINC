@@ -224,7 +224,7 @@ export default function Qr() {
       <text style={{ fontWeight: "bold", color: "white" }}>
         Logged in with: <br />
       </text>
-      {/* <text>{configParam}</text> */}
+      <text>{configParam}</text>
 
 
       <text style={{ fontWeight: "bold", paddingBottom: 30, color: "white" }}>
