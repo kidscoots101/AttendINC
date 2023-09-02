@@ -244,10 +244,10 @@ export default function Qr() {
           <span style={highlightStyle}>submit your attendance</span>
           <QrScanner
             onDecode={(result) => {
-              const qrCodeData = result.substring(result.lastIndexOf('=') + 1); 
-              console.log(qrCodeData)
+              const nolinkResult = result.replaceAll("https://attend-inc-sandy.vercel.app/Qr?=", ""); 
+              console.log(nolinkResult)
               setData(email);
-              sendtoFirebaseAlert(qrCodeData);
+              sendtoFirebaseAlert(nolinkResult);
             }}  
           onError={(error) => console.log(error?.message)}
           />
