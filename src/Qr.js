@@ -244,7 +244,8 @@ export default function Qr() {
           <span style={highlightStyle}>submit your attendance</span>
           <QrScanner
             onDecode={(result) => {
-              const qrCodeData = result.substring(result.lastIndexOf('/') + 1); 
+              const qrCodeData = result.substring(result.lastIndexOf('=') + 1); 
+              console.log(qrCodeData)
               setData(email);
               sendtoFirebaseAlert(qrCodeData);
             }}  
