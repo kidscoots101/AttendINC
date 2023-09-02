@@ -179,6 +179,7 @@ export default function Qr() {
     }
   }
 
+
   function validateEmail(email) {
     const emailPattern = /\S+@\S+\.\S+/;
     return emailPattern.test(email);
@@ -210,6 +211,7 @@ export default function Qr() {
 
   const configParam = new URLSearchParams(qr_location.search);
 
+  
   return (
     <div
       style={{
@@ -235,7 +237,7 @@ export default function Qr() {
           Scan the QR Code on the screen to{" "} 
           <span style={highlightStyle}>submit your attendance</span>
           <QrScanner
-            onDecode={(result) => [setData(email), sendtoFirebaseAlert(configParam)]}
+            onDecode={(result) => [setData(email), sendtoFirebaseAlert(result)]}
             onError={(error) => console.log(error?.message)}
           />
           <p>{data}</p>
