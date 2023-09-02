@@ -5,6 +5,7 @@ import Qr from "./Qr";
 import Modal from 'react-modal';
 import './App.css'
 import Policy from "./Policy";
+import ConfigPage from "./Config";
 
 export default function App() {
   const [showFullPolicy, setShowFullPolicy] = useState(false);
@@ -40,7 +41,7 @@ export default function App() {
         <Route path="/" element={<AttendanceSystem />} />
         <Route path="/Qr" element={<Qr />} />
         <Route path="/privacy-policy" element={<Policy />} />
-
+        <Route path="/config" element={<ConfigPage />} />
       </Routes>
     </Router>
   );
