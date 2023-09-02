@@ -8,10 +8,17 @@ function ConfigPage() {
 
   const openMacApp = () => {
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
     if (isSafari) {
-      window.location.href = 'attendinc://' + "config?" + configParam; 
+      const confirmed = window.confirm("Are you sure you want to open the Mac App?");
+      if (confirmed) {
+        window.location.href = 'attendinc://' + "config?" + configParam;
+      }
     } else {
-      window.open('attendinc://' + "config?" + configParam);
+      const confirmed = window.confirm("Are you sure you want to open the Mac App?");
+      if (confirmed) {
+        window.open('attendinc://' + "config?" + configParam);
+      }
     }
   };
 
