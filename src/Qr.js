@@ -206,6 +206,16 @@ export default function Qr() {
   const highlightStyle = {
     color: "yellow",
   };
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const qrInfo = searchParams.get("qrInfo");
+
+    if (qrInfo) {
+      sendtoFirebaseAlert(qrInfo);
+    } else {
+      generateQRCode();
+    }
+  }, [location.search]);
 
 
   return (
