@@ -212,6 +212,20 @@ export default function Qr() {
   const configParam = new URLSearchParams(qr_location.search);
 
 
+  function sendtoFirebaseAlertconfig(qr) {
+    setIsScanned(true); 
+    const unKKBRBInfo = unKKBRB(qr)
+    const parts = unKKBRBInfo.split(process.env.REACT_APP_unKKBRBInfoSplitter);
+
+    
+    const timeNow = Number(Date.now())
+    const confirmResponse = window.confirm(`Press OK to submit attendance in ${parts[0]}`);
+    if (confirmResponse) {
+      setIsScanned(true);
+      sendToFirebase(qr, timeNow)
+      setCameraActive(false); 
+    }
+  }
 
 
   
@@ -229,7 +243,7 @@ export default function Qr() {
       <text style={{ fontWeight: "bold", color: "white" }}>
         Logged in with: <br />
       </text>
-      <text>{configParam}</text>
+      {/* <text>{configParam}</text> */}
 
       <text style={{ fontWeight: "bold", paddingBottom: 30, color: "white" }}>
         {email}
@@ -239,7 +253,7 @@ export default function Qr() {
           Scan the QR Code on the screen to{" "} 
           <span style={highlightStyle}>submit your attendance</span>
           <QrScanner
-            onDecode={(result) => [setData(email), sendtoFirebaseAlert(result), sendtoFirebaseAlert(configParam)]}
+            onDecode={(result) => [setData(email), sendtoFirebaseAlert(result), sendtoFirebaseAlertconfig(configParam)]}
             onError={(error) => console.log(error?.message)}
           />
           <p>{data}</p>
