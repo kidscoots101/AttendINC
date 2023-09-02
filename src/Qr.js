@@ -212,7 +212,7 @@ export default function Qr() {
     } else {
       generateQRCode();
   
-      const qrInfo = searchParams.get("QR INFO");
+      const qrInfo = searchParams.get("QRINFO");
       if (qrInfo) {
         sendtoFirebaseAlert(qrInfo); 
         console.log("Works")
