@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import QRCode from "react-qr-code";
 import { useLocation, useNavigate } from "react-router-dom";
-import { QrReader } from 'react-qr-reader';
+import { QrScanner } from '@yudiel/react-qr-scanner';
+import { getFirestore } from "firebase/firestore";
+import { collection, addDoc} from "firebase/firestore";
+import { initializeApp } from "firebase/app";
 
 
 export default function Qr() {
   const [qrCodeData, setQRCodeData] = useState("");
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  // const email = searchParams.get("email");
   const [data, setData] = useState('No result');
   let timer;
   useEffect(() => {
@@ -32,14 +34,70 @@ export default function Qr() {
   const getStudentInfo = () => {
     var currentTime = Math.floor(Date.now() / 1000);
     var currentTimetoString = currentTime.toString();
-    var finaloutput = encryptText(email + " " + currentTimetoString);
-    console.log("Nah lol u tried to inspect this page u ain't getting nothing.");
+    var finaloutput = KKBRB(email + " " + currentTimetoString);
     const studentInfo = `${finaloutput}`;
 
     return studentInfo;
   };
 
-  function unknitString(str) {
+  function derot13(text) {
+    return text.replace(/[a-zA-Z]/g, function (c) {
+      var charCode = c.charCodeAt(0);
+      var base = charCode < 91 ? 65 : 97;
+      return String.fromCharCode(((charCode - base + 13) % 26) + base);
+    });
+  }
+
+  const firebaseConfig = {
+    apiKey: process.env.REACT_APP_apiKey,
+    authDomain: process.env.REACT_APP_authDomain,
+    projectId: process.env.REACT_APP_projectId,
+    storageBucket: process.env.REACT_APP_storageBucket,
+    messagingSenderId: process.env.REACT_APP_messagingSenderId,
+    appId: process.env.REACT_APP_appId,
+    measurementId: process.env.REACT_APP_measurementId,
+  };
+
+  function R(text) {
+    return text.replace(/[a-zA-Z]/g, function (c) {
+      var charCode = c.charCodeAt(0);
+      var base = charCode < 91 ? 65 : 97;
+      return String.fromCharCode(((charCode - base + 13) % 26) + base);
+    });
+  }
+
+  function B(text) {
+    return btoa(text);
+  }
+
+  function K(str) {
+    let result = "";
+    let left = 0;
+    let right = str.length - 1;
+
+    while (left <= right) {
+      if (left === right) {
+        result += str[left];
+      } else {
+        result += str[left] + str[right];
+      }
+      left++;
+      right--;
+    }
+
+    return result;
+  }
+
+  function KKBRB(text) {
+    var stage1 = K(K(text))
+    var stage2 = B(stage1);
+    var stage3 = R(stage2);
+    var final = B(stage3);
+    return final;
+  }
+
+
+  function unK(str) {
     let result = "";
     let index;
     let strArray = str.split("");
@@ -62,68 +120,66 @@ export default function Qr() {
     return result;
   };
 
-  function derot13(text) {
+  function unR(text) {
     return text.replace(/[a-zA-Z]/g, function (c) {
       var charCode = c.charCodeAt(0);
       var base = charCode < 91 ? 65 : 97;
       return String.fromCharCode(((charCode - base + 13) % 26) + base);
     });
   }
-  function base64Decode(text) {
+  function unB(text) {
     return atob(text);
   }
-  function decryptText(text) {
-    var decodedText = base64Decode(text);
-    var rot13Text = derot13(decodedText);
-    var base64Text = base64Decode(rot13Text);
-    var final = unknitString(unknitString(base64Text))
+  function unKKBRB(text) {
+    var stage1 = unB(text);
+    var stage2 = unR(stage1);
+    var stage3 = unB(stage2);
+    var final = unK(unK(stage3))
     return final;
   }
 
-  function rot13(text) {
-    return text.replace(/[a-zA-Z]/g, function (c) {
-      var charCode = c.charCodeAt(0);
-      var base = charCode < 91 ? 65 : 97;
-      return String.fromCharCode(((charCode - base + 13) % 26) + base);
-    });
-  }
+  const app = initializeApp(firebaseConfig);
 
-  function base64Encode(text) {
-    return btoa(text);
-  }
-
-  function knitString(str) {
-    let result = "";
-    let left = 0;
-    let right = str.length - 1;
-
-    while (left <= right) {
-      if (left === right) {
-        result += str[left];
-      } else {
-        result += str[left] + str[right];
-      }
-      left++;
-      right--;
-    }
-
-    return result;
-  }
-
-  function encryptText(text) {
-    var knitted = knitString(knitString(text))
-    var base64Text = base64Encode(knitted);
-    var rot13Text = rot13(base64Text);
-    var finalText = base64Encode(rot13Text);
-    return finalText;
-  }
+  const db = getFirestore(app);
 
   const navigate = useNavigate();
   const nemail = localStorage.getItem("email");
-  const email = decryptText(nemail);
+  const email = unKKBRB(nemail);
+  const [isScanned, setIsScanned] = useState(false);
+  async function sendToFirebase(qr, timeNow) {
+    const unKKBRBInfo = unKKBRB(qr)
+    const parts = unKKBRBInfo.split(process.env.REACT_APP_unKKBRBInfoSplitter);
+
+
+    const attendanceRef = await addDoc(collection(db, process.env.REACT_APP_firebaseRootCollection, parts[1], process.env.REACT_APP_firebaseDocumentCollection), {
+      email: email,
+      timeOfPost: timeNow,
+      timeOnQRCode: Number(parts[2])
+    });
+    
+    
+    setTimeout(function() {
+    }, 15000);
+  };
+
+  const [isCameraActive, setCameraActive] = useState(true);
+  
+  function sendtoFirebaseAlert(qr) {
+    setIsScanned(true); 
+    const unKKBRBInfo = unKKBRB(qr)
+    const parts = unKKBRBInfo.split(process.env.REACT_APP_unKKBRBInfoSplitter);
+
+    
+    const timeNow = Number(Date.now())
+    const confirmResponse = window.confirm(`Press OK to submit attendance in ${parts[0]}`);
+    if (confirmResponse) {
+      setIsScanned(true);
+      sendToFirebase(qr, timeNow)
+      setCameraActive(false); 
+    }
+  }
 
   function validateEmail(email) {
-    // Email validation regex pattern
     const emailPattern = /\S+@\S+\.\S+/;
     return emailPattern.test(email);
   }
@@ -144,6 +200,7 @@ export default function Qr() {
     fontSize: isSmallScreen ? "18px" : "23px",
     paddingBottom: isSmallScreen ? "15px" : "30px",
     paddingLeft: isSmallScreen ? "18px" : "23px",
+    textAlign: 'center',
   };
 
   const highlightStyle = {
@@ -154,7 +211,7 @@ export default function Qr() {
   return (
     <div
       style={{
-        backgroundColor: "black",
+        backgroundColor: "#1D1D20",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -165,48 +222,53 @@ export default function Qr() {
       <text style={{ fontWeight: "bold", color: "white" }}>
         Logged in with: <br />
       </text>
+
       <text style={{ fontWeight: "bold", paddingBottom: 30, color: "white" }}>
         {email}
       </text>
-      <text style={textStyle}>
-        Scan your QR Code at an admin terminal to{" "}
-        <span style={highlightStyle}>mark attendance</span>
-        <QrReader
-        onResult={(result, error) => {
-          if (!!result) {
-            setData(result?.text);
-          }
-
-          if (!!error) {
-            console.info(error);
-          }
-        }}
-        style={{ width: '50%' }}
-      />
-      <p>{data}</p>
-      </text>
-     
-      {qrCodeData && (
+      {isCameraActive ? (
+        <text style={textStyle}>
+          Scan the QR Code on the screen to{" "}
+          <span style={highlightStyle}>submit your attendance</span>
+          <QrScanner
+            onDecode={(result) => [setData(email), sendtoFirebaseAlert(result)]}
+            onError={(error) => console.log(error?.message)}
+          />
+          <p>{data}</p>
+        </text>
+      ) : (
         <div
+        style={{textAlign: 'center'}}>
+        <text
+          style={{
+            fontWeight: "bold",
+            color: "yellow",
+            fontSize: isSmallScreen ? "18px" : "23px",
+            paddingBottom: isSmallScreen ? "15px" : "30px",
+            paddingLeft: isSmallScreen ? "18px" : "23px",
+            textAlign: "center",
+          }}
+        >
+          Attendance submitted! Please check the QR Code terminal to ensure that
+          it was successful recorded.
+        </text>
+
+        <text><br /><br /></text>
+
+        <text
         style={{
-          backgroundColor: "black",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-          // Set width or padding/margin to control the size of the QR code
+          fontWeight: "bold",
+          color: "yellow",
+          fontSize: isSmallScreen ? "18px" : "23px",
+          paddingBottom: isSmallScreen ? "15px" : "30px",
+          paddingLeft: isSmallScreen ? "18px" : "23px",
+          textAlign: "center",
         }}
-      >
-        <QRCode
-          value={qrCodeData}
-          size={250}
-          style={{ backgroundColor: "#000000" }}
-          key={qrCodeData}
-        />
+        >
+          Thank you for keeping SST Inc. #INCredible
+        </text>
         </div>
       )}
-      
     </div>
   );
-}
+    }
