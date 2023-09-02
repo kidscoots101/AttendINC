@@ -222,9 +222,10 @@ export default function Qr() {
   }
 
   useEffect(() => {
-    const garbage = "" + configParam
+    var garbage = "" + configParam
+    garbage.slice(1)
     if (garbage != "") {
-      sendtoFirebaseAlert(garbage.slice(1));
+      sendtoFirebaseAlert(garbage);
     }
   }, []);
 
