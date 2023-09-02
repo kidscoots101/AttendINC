@@ -37,7 +37,7 @@ function ConfigPage() {
           <p style={{ fontSize: 25, fontFamily: "'Titillium Web', sans-serif", color: 'white' }}>Click Launch <strong style={{fontWeight: 'bolder'}}>AttendINC</strong> below</p>
           <button onClick={openMacApp}>Launch AttendINC</button>
           <div style={{ width: '100%', maxWidth: '800px', borderBottom: '0.5px solid #808080', marginTop: 30 }}></div>
-          <p style={{ marginTop: 30, fontFamily: "'Titillium Web', sans-serif", color: 'white' }}>Don't have AttendINC installed? <a href="https://testflight.apple.com/join/EjhxNSQh" style={{fontFamily: "'Titillium Web', sans-serif", color: 'white'}}> Download now</a></p>
+          <p style={{ marginTop: 30, fontFamily: "'Titillium Web', sans-serif", color: 'white' }}>Don't have AttendINC installed? <a href="https://testflight.apple.com/join/EjhxNSQh" style={{fontFamily: "'Titillium Web', sans-serif", color: 'white'}} target="_blank"> Download now</a></p>
         </div>
       </div>
     </div>
