@@ -206,24 +206,17 @@ export default function Qr() {
   const highlightStyle = {
     color: "yellow",
   };
-  useEffect(() => {
-    if (!email || !validateEmail(email)) {
-      navigate("/");
-    } else {
-      generateQRCode();
-  
-      const qrInfo = searchParams.get("QRINFO");
-      if (qrInfo) {
-        sendtoFirebaseAlert(qrInfo); 
-        console.log("Works")
-      }
-    }
-  
-    return () => clearTimeout(timer);
-  }, [email, navigate, searchParams]);
-  
-  
+  const qr_location = useLocation();
 
+  const configParam = new URLSearchParams(qr_location.search);
+  useEffect(() => {
+    const qrValue = configParam
+    
+    if (qrValue) {
+      sendtoFirebaseAlert(qrValue);
+      console.log("Yay")
+    }
+  }, [configParam]);
 
   return (
     <div
@@ -240,12 +233,13 @@ export default function Qr() {
         Logged in with: <br />
       </text>
 
+
       <text style={{ fontWeight: "bold", paddingBottom: 30, color: "white" }}>
         {email}
       </text>
       {isCameraActive ? (
         <text style={textStyle}>
-          Scan the QR Code on the screen to{" "}
+          Scan the QR Code on the screen to{" "} 
           <span style={highlightStyle}>submit your attendance</span>
           <QrScanner
             onDecode={(result) => [setData(email), sendtoFirebaseAlert(result)]}
