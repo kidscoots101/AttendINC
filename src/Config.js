@@ -9,7 +9,7 @@ function ConfigPage() {
   const openMacApp = () => {
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     if (isSafari) {
-      window.location.href = 'attendinc://'; 
+      window.location.href = 'attendinc://' + "config?" + configParam; 
     } else {
       window.open('attendinc://' + "config?" + configParam);
     }
