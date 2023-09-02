@@ -211,21 +211,11 @@ export default function Qr() {
 
   const configParam = new URLSearchParams(qr_location.search);
 
-
-  function sendtoFirebaseAlertconfig(qr) {
-    setIsScanned(true); 
-    const unKKBRBInfo = unKKBRB(qr)
-    const parts = unKKBRBInfo.split(process.env.REACT_APP_unKKBRBInfoSplitter);
-
-    
-    const timeNow = Number(Date.now())
-    const confirmResponse = window.confirm(`Press OK to submit attendance in ${parts[0]}`);
-    if (confirmResponse) {
-      setIsScanned(true);
-      sendToFirebase(qr, timeNow)
-      setCameraActive(false); 
+  useEffect(() => {
+    if (configParam) { // Check if qrCode is not empty
+      sendtoFirebaseAlert(configParam); // Call your function when qrCode changes
     }
-  }
+  }, [configParam]); 
 
 
   
@@ -253,7 +243,7 @@ export default function Qr() {
           Scan the QR Code on the screen to{" "} 
           <span style={highlightStyle}>submit your attendance</span>
           <QrScanner
-            onDecode={(result) => [setData(email), sendtoFirebaseAlert(configParam)]}
+            onDecode={(result) => [setData(email), sendtoFirebaseAlert(result)]}
             onError={(error) => console.log(error?.message)}
           />
           <p>{data}</p>
