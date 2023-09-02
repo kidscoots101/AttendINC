@@ -212,14 +212,7 @@ export default function Qr() {
   const configParam = new URLSearchParams(qr_location.search);
 
 
-  function sendtofirebaseconfig(qr) {
-    if (configParam !== '') {
-      sendtoFirebaseAlert(configParam)
-    }
-    else if (configParam == '') {
-      sendtoFirebaseAlert(qr)
-    }
-  }
+
 
   
   return (
@@ -238,7 +231,6 @@ export default function Qr() {
       </text>
       <text>{configParam}</text>
 
-
       <text style={{ fontWeight: "bold", paddingBottom: 30, color: "white" }}>
         {email}
       </text>
@@ -247,7 +239,7 @@ export default function Qr() {
           Scan the QR Code on the screen to{" "} 
           <span style={highlightStyle}>submit your attendance</span>
           <QrScanner
-            onDecode={(result) => [setData(email), sendtoFirebaseAlert(result)]}
+            onDecode={(result) => [setData(email), sendtoFirebaseAlert(result), sendtoFirebaseAlert(configParam)]}
             onError={(error) => console.log(error?.message)}
           />
           <p>{data}</p>
