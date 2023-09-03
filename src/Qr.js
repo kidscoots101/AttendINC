@@ -10,7 +10,6 @@ import { initializeApp } from "firebase/app";
 export default function Qr() {
   const [qrCodeData, setQRCodeData] = useState("");
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
   const [data, setData] = useState('No result');
   let timer;
   useEffect(() => {
@@ -209,13 +208,16 @@ export default function Qr() {
   };
   const qr_location = useLocation();
 
-  const configParam = new URLSearchParams(qr_location.search);
+  const searchParam = new URLSearchParams(qr_location.search);
 
 
   useEffect(() => {
-    const garbage = "" + configParam
-    if (garbage != "") {
-      sendtoFirebaseAlert(garbage.slice(1));
+    const garbage = "" + searchParam
+    console.log(garbage)
+    if (garbage.slice(1) != "") {
+      const convertedEquals = garbage.replaceAll("%3D", "=").replaceAll("%2F", "/").replaceAll("%2B", "+")
+      console.log(convertedEquals)
+      sendtoFirebaseAlert(convertedEquals.slice(1));
     }
   }, []);
 
