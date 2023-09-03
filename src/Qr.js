@@ -217,6 +217,7 @@ export default function Qr() {
     if (garbage.slice(1) != "") {
       const convertedEquals = garbage.replaceAll("%3D", "=").replaceAll("%2F", "/").replaceAll("%2B", "+")
       console.log(convertedEquals)
+      setData(email);
       sendtoFirebaseAlert(convertedEquals.slice(1));
     }
   }, []);
