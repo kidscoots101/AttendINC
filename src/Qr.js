@@ -174,7 +174,7 @@ export default function Qr() {
     if (confirmResponse) {
       setIsScanned(true);
       sendToFirebase(qr, timeNow)
-      setCameraActive(false); 
+      setCameraActive(false);
     }
   }
 
@@ -218,6 +218,7 @@ export default function Qr() {
       const convertedEquals = garbage.replaceAll("%3D", "=").replaceAll("%2F", "/").replaceAll("%2B", "+")
       console.log(convertedEquals)
       setData(email);
+      setCameraActive(false)
       sendtoFirebaseAlert(convertedEquals.slice(1));
     }
   }, []);
