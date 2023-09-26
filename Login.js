@@ -26,10 +26,18 @@ const AttendanceSystem = () => {
   //     // window.location.href = "/Qr.js";
   //   };
   useEffect(() => {
+    if (
+      localStorage.getItem("email") != null ||
+      localStorage.getItem("isLoggedIn") != null
+    ) {
+      navigate("/Qr");
+    }
+
     gapi.load("client:auth2", () => {
       gapi.auth2.init({ clientId: clientId });
     });
   }, []);
+
   const failedLoggedIn = () => {
     setIsLoggedIn(false);
   };

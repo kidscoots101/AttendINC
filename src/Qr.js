@@ -189,6 +189,8 @@ export default function Qr() {
       setCameraActive(false);
       navigate("/");
     } else {
+      navigate("/Qr");
+
       generateQRCode();
 
       const garbage = "" + searchParam;

@@ -4,15 +4,19 @@ import { useNavigate } from "react-router-dom";
 function AttendanceSuccessPage() {
   const isSmallScreen = window.innerWidth <= 600;
   const navigate = useNavigate();
-  
+
   useEffect(() => {
-    if (localStorage.getItem("email") == null || localStorage.getItem("isLoggedIn") == null) {
-        navigate("/")
+    if (
+      localStorage.getItem("email") == null ||
+      localStorage.getItem("isLoggedIn") == null
+    ) {
+      navigate("/");
     }
   });
 
   return (
-    <div style={{
+    <div
+      style={{
         backgroundColor: "#1D1D20",
         display: "flex",
         flexDirection: "column",
@@ -20,7 +24,8 @@ function AttendanceSuccessPage() {
         alignItems: "center",
         textAlign: "center",
         height: "100vh",
-      }}>
+      }}
+    >
       <text
         style={{
           fontWeight: "bold",
