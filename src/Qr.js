@@ -175,6 +175,7 @@ export default function Qr() {
       setIsScanned(true);
       sendToFirebase(qr, timeNow);
       setCameraActive(false);
+      navigate("/success")
     }
   }
 
@@ -248,72 +249,37 @@ export default function Qr() {
       <text style={{ fontWeight: "bold", paddingBottom: 30, color: "white" }}>
         {email}
       </text>
-      {isCameraActive ? (
-        <div
-          style={{
-            alignItems: "center",
-            display: "flex",
-            flexDirection: "column",
-          }}
+
+      <div
+        style={{
+          alignItems: "center",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <text style={textStyle}>
+          Scan the QR Code on the screen to{" "}
+          <span style={highlightStyle}>submit your attendance</span>
+          <QrScanner
+            onDecode={(result) => {
+              const nolinkResult = result.replaceAll(
+                "https://attend-inc-sandy.vercel.app/Qr?=",
+                ""
+              );
+              console.log(nolinkResult);
+              setData(email);
+              sendtoFirebaseAlert(nolinkResult);
+            }}
+            onError={(error) => console.log(error?.message)}
+          />
+        </text>
+        <button
+          style={{ backgroundColor: "#e0242f", fontWeight: "bold" }}
+          onClick={logOut}
         >
-          <text style={textStyle}>
-            Scan the QR Code on the screen to{" "}
-            <span style={highlightStyle}>submit your attendance</span>
-            <QrScanner
-              onDecode={(result) => {
-                const nolinkResult = result.replaceAll(
-                  "https://attend-inc-sandy.vercel.app/Qr?=",
-                  ""
-                );
-                console.log(nolinkResult);
-                setData(email);
-                sendtoFirebaseAlert(nolinkResult);
-              }}
-              onError={(error) => console.log(error?.message)}
-            />
-          </text>
-          <button
-            style={{ backgroundColor: "#e0242f", fontWeight: "bold" }}
-            onClick={logOut}
-          >
-            Log Out
-          </button>
-        </div>
-      ) : (
-        <div style={{ textAlign: "center" }}>
-          <text
-            style={{
-              fontWeight: "bold",
-              color: "yellow",
-              fontSize: isSmallScreen ? "18px" : "23px",
-              paddingBottom: isSmallScreen ? "15px" : "30px",
-              paddingLeft: isSmallScreen ? "18px" : "23px",
-              textAlign: "center",
-            }}
-          >
-            Attendance submitted! Please check the QR Code terminal to ensure
-            that it was successful recorded.
-          </text>
-
-          <text>
-            <br />
-            <br />
-          </text>
-
-          <text
-            style={{
-              fontWeight: "bold",
-              color: "yellow",
-              fontSize: isSmallScreen ? "18px" : "23px",
-              paddingBottom: isSmallScreen ? "15px" : "30px",
-              paddingLeft: isSmallScreen ? "18px" : "23px",
-              textAlign: "center",
-            }}
-          >
-            Thank you for keeping SST Inc. #INCredible
-          </text>
-        </div>
-      )}
+          Log Out
+        </button>
+      </div>
     </div>
   );
 }
