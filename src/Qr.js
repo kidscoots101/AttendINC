@@ -12,11 +12,6 @@ export default function Qr() {
   const location = useLocation();
   const [data, setData] = useState('No result');
   let timer;
-  useEffect(() => {
-    generateQRCode();
-
-    return () => clearTimeout(timer);
-  }, []);
 
   const generateQRCode = () => {
     const studentInfo = getStudentInfo();
@@ -130,11 +125,13 @@ export default function Qr() {
     return atob(text);
   }
   function unKKBRB(text) {
-    var stage1 = unB(text);
-    var stage2 = unR(stage1);
-    var stage3 = unB(stage2);
-    var final = unK(unK(stage3))
-    return final;
+    if (text != null) {
+      var stage1 = unB(text);
+      var stage2 = unR(stage1);
+      var stage3 = unB(stage2);
+      var final = unK(unK(stage3));
+      return final;
+    }
   }
 
   const app = initializeApp(firebaseConfig);
@@ -183,6 +180,7 @@ export default function Qr() {
     const emailPattern = /\S+@\S+\.\S+/;
     return emailPattern.test(email);
   }
+  
   useEffect(() => {
     if (!email || !validateEmail(email)) {
       navigate("/");
@@ -225,6 +223,7 @@ export default function Qr() {
 
   const logOut = () => {
     localStorage.removeItem("isLoggedIn")
+    localStorage.removeItem("email")
     navigate("/")
   };
   
