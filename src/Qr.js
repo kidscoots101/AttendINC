@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import QRCode from "react-qr-code";
 import { useLocation, useNavigate } from "react-router-dom";
-import { QrScanner } from '@yudiel/react-qr-scanner';
+import { QrScanner } from "@yudiel/react-qr-scanner";
 import { getFirestore } from "firebase/firestore";
-import { collection, addDoc} from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
-
 
 export default function Qr() {
   const [qrCodeData, setQRCodeData] = useState("");
   const location = useLocation();
-  const [data, setData] = useState('No result');
+  const [data, setData] = useState("No result");
   let timer;
 
   const generateQRCode = () => {
@@ -83,36 +82,35 @@ export default function Qr() {
   }
 
   function KKBRB(text) {
-    var stage1 = K(K(text))
+    var stage1 = K(K(text));
     var stage2 = B(stage1);
     var stage3 = R(stage2);
     var final = B(stage3);
     return final;
   }
 
-
   function unK(str) {
     let result = "";
     let index;
     let strArray = str.split("");
-  
+
     if (str.length % 2 === 0) {
       index = str.length - 1;
     } else {
       index = str.length - 2;
     }
-  
+
     while (index > 0) {
       strArray.push(strArray[index]);
       strArray[index] = "";
-  
+
       index -= 2;
     }
-  
+
     result = strArray.join("");
-  
+
     return result;
-  };
+  }
 
   function unR(text) {
     return text.replace(/[a-zA-Z]/g, function (c) {
@@ -143,49 +141,67 @@ export default function Qr() {
   const email = unKKBRB(nemail);
   const [isScanned, setIsScanned] = useState(false);
   async function sendToFirebase(qr, timeNow) {
-    const unKKBRBInfo = unKKBRB(qr)
+    const unKKBRBInfo = unKKBRB(qr);
     const parts = unKKBRBInfo.split(process.env.REACT_APP_unKKBRBInfoSplitter);
 
+    const attendanceRef = await addDoc(
+      collection(
+        db,
+        process.env.REACT_APP_firebaseRootCollection,
+        parts[1],
+        process.env.REACT_APP_firebaseDocumentCollection
+      ),
+      {
+        email: email,
+        timeOfPost: timeNow,
+        timeOnQRCode: Number(parts[2]),
+      }
+    );
 
-    const attendanceRef = await addDoc(collection(db, process.env.REACT_APP_firebaseRootCollection, parts[1], process.env.REACT_APP_firebaseDocumentCollection), {
-      email: email,
-      timeOfPost: timeNow,
-      timeOnQRCode: Number(parts[2])
-    });
-    
-    
-    setTimeout(function() {
-    }, 15000);
-  };
+    setTimeout(function () {}, 15000);
+  }
 
   const [isCameraActive, setCameraActive] = useState(true);
-  
+
   function sendtoFirebaseAlert(qr) {
-    setIsScanned(true); 
-    const unKKBRBInfo = unKKBRB(qr)
+    const unKKBRBInfo = unKKBRB(qr);
     const parts = unKKBRBInfo.split(process.env.REACT_APP_unKKBRBInfoSplitter);
 
-    
-    const timeNow = Number(Date.now())
-    const confirmResponse = window.confirm(`Press OK to submit attendance in ${parts[0]}`);
+    const timeNow = Number(Date.now());
+    const confirmResponse = window.confirm(
+      `Press OK to submit attendance in ${parts[0]}`
+    );
     if (confirmResponse) {
       setIsScanned(true);
-      sendToFirebase(qr, timeNow)
+      sendToFirebase(qr, timeNow);
       setCameraActive(false);
     }
   }
-
 
   function validateEmail(email) {
     const emailPattern = /\S+@\S+\.\S+/;
     return emailPattern.test(email);
   }
-  
+
   useEffect(() => {
     if (!email || !validateEmail(email)) {
+      setCameraActive(false);
       navigate("/");
     } else {
       generateQRCode();
+
+      const garbage = "" + searchParam;
+      console.log(garbage);
+      if (garbage.slice(1) != "") {
+        const convertedEquals = garbage
+          .replaceAll("%3D", "=")
+          .replaceAll("%2F", "/")
+          .replaceAll("%2B", "+");
+        console.log(convertedEquals);
+        setData(email);
+        setCameraActive(false);
+        sendtoFirebaseAlert(convertedEquals.slice(1));
+      }
     }
 
     return () => clearTimeout(timer);
@@ -198,7 +214,7 @@ export default function Qr() {
     fontSize: isSmallScreen ? "18px" : "23px",
     paddingBottom: isSmallScreen ? "15px" : "30px",
     paddingLeft: isSmallScreen ? "18px" : "23px",
-    textAlign: 'center',
+    textAlign: "center",
   };
 
   const highlightStyle = {
@@ -208,25 +224,12 @@ export default function Qr() {
 
   const searchParam = new URLSearchParams(qr_location.search);
 
-
-  useEffect(() => {
-    const garbage = "" + searchParam
-    console.log(garbage)
-    if (garbage.slice(1) != "") {
-      const convertedEquals = garbage.replaceAll("%3D", "=").replaceAll("%2F", "/").replaceAll("%2B", "+")
-      console.log(convertedEquals)
-      setData(email);
-      setCameraActive(false)
-      sendtoFirebaseAlert(convertedEquals.slice(1));
-    }
-  }, []);
-
   const logOut = () => {
-    localStorage.removeItem("isLoggedIn")
-    localStorage.removeItem("email")
-    navigate("/")
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("email");
+    navigate("/");
   };
-  
+
   return (
     <div
       style={{
@@ -246,7 +249,13 @@ export default function Qr() {
         {email}
       </text>
       {isCameraActive ? (
-        <div style={{alignItems: "center", display: "flex", flexDirection: 'column'}}>
+        <div
+          style={{
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <text style={textStyle}>
             Scan the QR Code on the screen to{" "}
             <span style={highlightStyle}>submit your attendance</span>
@@ -263,7 +272,10 @@ export default function Qr() {
               onError={(error) => console.log(error?.message)}
             />
           </text>
-          <button style={{backgroundColor: "#e0242f", fontWeight: "bold"}} onClick={logOut}>
+          <button
+            style={{ backgroundColor: "#e0242f", fontWeight: "bold" }}
+            onClick={logOut}
+          >
             Log Out
           </button>
         </div>
@@ -304,4 +316,4 @@ export default function Qr() {
       )}
     </div>
   );
-    }
+}
