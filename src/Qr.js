@@ -223,6 +223,10 @@ export default function Qr() {
     }
   }, []);
 
+  const logOut = () => {
+    localStorage.removeItem("isLoggedIn")
+    navigate("/")
+  };
   
   return (
     <div
@@ -243,51 +247,60 @@ export default function Qr() {
         {email}
       </text>
       {isCameraActive ? (
-        <text style={textStyle}>
-          Scan the QR Code on the screen to{" "} 
-          <span style={highlightStyle}>submit your attendance</span>
-          <QrScanner
-            onDecode={(result) => {
-              const nolinkResult = result.replaceAll("https://attend-inc-sandy.vercel.app/Qr?=", ""); 
-              console.log(nolinkResult)
-              setData(email);
-              sendtoFirebaseAlert(nolinkResult);
-            }}  
-          onError={(error) => console.log(error?.message)}
-          />
-          <p>{data}</p>
-        </text>
+        <div style={{alignItems: "center", display: "flex", flexDirection: 'column'}}>
+          <text style={textStyle}>
+            Scan the QR Code on the screen to{" "}
+            <span style={highlightStyle}>submit your attendance</span>
+            <QrScanner
+              onDecode={(result) => {
+                const nolinkResult = result.replaceAll(
+                  "https://attend-inc-sandy.vercel.app/Qr?=",
+                  ""
+                );
+                console.log(nolinkResult);
+                setData(email);
+                sendtoFirebaseAlert(nolinkResult);
+              }}
+              onError={(error) => console.log(error?.message)}
+            />
+          </text>
+          <button style={{backgroundColor: "#e0242f", fontWeight: "bold"}} onClick={logOut}>
+            Log Out
+          </button>
+        </div>
       ) : (
-        <div
-        style={{textAlign: 'center'}}>
-        <text
-          style={{
-            fontWeight: "bold",
-            color: "yellow",
-            fontSize: isSmallScreen ? "18px" : "23px",
-            paddingBottom: isSmallScreen ? "15px" : "30px",
-            paddingLeft: isSmallScreen ? "18px" : "23px",
-            textAlign: "center",
-          }}
-        >
-          Attendance submitted! Please check the QR Code terminal to ensure that
-          it was successful recorded.
-        </text>
+        <div style={{ textAlign: "center" }}>
+          <text
+            style={{
+              fontWeight: "bold",
+              color: "yellow",
+              fontSize: isSmallScreen ? "18px" : "23px",
+              paddingBottom: isSmallScreen ? "15px" : "30px",
+              paddingLeft: isSmallScreen ? "18px" : "23px",
+              textAlign: "center",
+            }}
+          >
+            Attendance submitted! Please check the QR Code terminal to ensure
+            that it was successful recorded.
+          </text>
 
-        <text><br /><br /></text>
+          <text>
+            <br />
+            <br />
+          </text>
 
-        <text
-        style={{
-          fontWeight: "bold",
-          color: "yellow",
-          fontSize: isSmallScreen ? "18px" : "23px",
-          paddingBottom: isSmallScreen ? "15px" : "30px",
-          paddingLeft: isSmallScreen ? "18px" : "23px",
-          textAlign: "center",
-        }}
-        >
-          Thank you for keeping SST Inc. #INCredible
-        </text>
+          <text
+            style={{
+              fontWeight: "bold",
+              color: "yellow",
+              fontSize: isSmallScreen ? "18px" : "23px",
+              paddingBottom: isSmallScreen ? "15px" : "30px",
+              paddingLeft: isSmallScreen ? "18px" : "23px",
+              textAlign: "center",
+            }}
+          >
+            Thank you for keeping SST Inc. #INCredible
+          </text>
         </div>
       )}
     </div>
