@@ -142,7 +142,7 @@ export default function Qr() {
       setIsScanned(true);
       sendToFirebase(qr, timeNow);
       setCameraActive(false);
-      navigate("/success")
+      navigate("/Qr/submitted")
     }
   }
 
