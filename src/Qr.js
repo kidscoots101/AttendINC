@@ -7,39 +7,6 @@ import { collection, addDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 
 export default function Qr() {
-  const [qrCodeData, setQRCodeData] = useState("");
-  const location = useLocation();
-  const [data, setData] = useState("No result");
-  let timer;
-
-  const generateQRCode = () => {
-    const studentInfo = getStudentInfo();
-    setQRCodeData(studentInfo);
-    startTimer();
-  };
-
-  const startTimer = () => {
-    setTimeout(() => {
-      generateQRCode();
-    }, 3500);
-  };
-
-  const getStudentInfo = () => {
-    var currentTime = Math.floor(Date.now() / 1000);
-    var currentTimetoString = currentTime.toString();
-    var finaloutput = KKBRB(email + " " + currentTimetoString);
-    const studentInfo = `${finaloutput}`;
-
-    return studentInfo;
-  };
-
-  function derot13(text) {
-    return text.replace(/[a-zA-Z]/g, function (c) {
-      var charCode = c.charCodeAt(0);
-      var base = charCode < 91 ? 65 : 97;
-      return String.fromCharCode(((charCode - base + 13) % 26) + base);
-    });
-  }
 
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_apiKey,
@@ -191,38 +158,20 @@ export default function Qr() {
     } else {
       navigate("/Qr");
 
-      generateQRCode();
-
-      const garbage = "" + searchParam;
-      console.log(garbage);
-      if (garbage.slice(1) != "") {
-        const convertedEquals = garbage
+      const qrCodeParam = "" + searchParam;
+      console.log(qrCodeParam);
+      if (qrCodeParam.slice(1) != "") {
+        const convertedEquals = qrCodeParam
           .replaceAll("%3D", "=")
           .replaceAll("%2F", "/")
           .replaceAll("%2B", "+");
         console.log(convertedEquals);
-        setData(email);
         setCameraActive(false);
         sendtoFirebaseAlert(convertedEquals.slice(1));
       }
     }
-
-    return () => clearTimeout(timer);
   }, [email, navigate]);
-  const isSmallScreen = window.innerWidth <= 600;
 
-  const textStyle = {
-    fontWeight: "bold",
-    color: "white",
-    fontSize: isSmallScreen ? "18px" : "23px",
-    paddingBottom: isSmallScreen ? "15px" : "30px",
-    paddingLeft: isSmallScreen ? "18px" : "23px",
-    textAlign: "center",
-  };
-
-  const highlightStyle = {
-    color: "yellow",
-  };
   const qr_location = useLocation();
 
   const searchParam = new URLSearchParams(qr_location.search);
@@ -242,26 +191,36 @@ export default function Qr() {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
+        width: "100vw",
       }}
     >
-      <text style={{ fontWeight: "bold", color: "white" }}>
-        Logged in with: <br />
-      </text>
-
-      <text style={{ fontWeight: "bold", paddingBottom: 30, color: "white" }}>
-        {email}
-      </text>
-
-      <div
+      <text
         style={{
-          alignItems: "center",
-          display: "flex",
-          flexDirection: "column",
+          fontWeight: "bold",
+          color: "white",
+          marginBottom: "15px",
+          marginLeft: "15px",
+          marginRight: "15px",
+          textAlign: "center",
         }}
       >
-        <text style={textStyle}>
-          Scan the QR Code on the screen to{" "}
-          <span style={highlightStyle}>submit your attendance</span>
+        Logged in with: <br /> {email}
+      </text>
+
+      <text style={{ fontSize: "2vh", fontWeight: "bold", color: "white", textAlign: "center" }}>
+        Scan the QR Code displayed on screen by your teacher to{" "}
+        <span style={{ color: "yellow" }}>mark your attendance</span>
+      </text>
+
+      <div style={{ margin: "15px 15px 15px 15px" }}>
+        <div
+          style={{
+            fontSize: "1.75vh",
+            width: "75vh",
+            maxWidth: "100vw",
+            maxHeight: "100vw",
+          }}
+        >
           <QrScanner
             onDecode={(result) => {
               const nolinkResult = result.replaceAll(
@@ -269,12 +228,14 @@ export default function Qr() {
                 ""
               );
               console.log(nolinkResult);
-              setData(email);
               sendtoFirebaseAlert(nolinkResult);
             }}
             onError={(error) => console.log(error?.message)}
           />
-        </text>
+        </div>
+      </div>
+
+      <div style={{ marginTop: "15px" }}>
         <button
           style={{ backgroundColor: "#e0242f", fontWeight: "bold" }}
           onClick={logOut}
