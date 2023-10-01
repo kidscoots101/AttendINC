@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
-import QRCode from "react-qr-code";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { QrScanner } from "@yudiel/react-qr-scanner";
 import { getFirestore } from "firebase/firestore";
@@ -7,6 +6,8 @@ import { collection, addDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 
 export default function Qr() {
+
+  const isSmallScreen = window.innerWidth <= 600;
 
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_apiKey,
@@ -142,7 +143,6 @@ export default function Qr() {
       setIsScanned(true);
       sendToFirebase(qr, timeNow);
       setCameraActive(false);
-      navigate("/Qr/submitted")
     }
   }
 
@@ -179,8 +179,100 @@ export default function Qr() {
   const logOut = () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("email");
+    setCameraActive(false);
     navigate("/");
+    window.location.reload();
   };
+
+  function ScannerArea(props) {
+    const credentialsAreValid = props.credentialsAreValid;
+    if (isScanned) {
+      return (
+        <div
+          style={{
+            backgroundColor: "#1D1D20",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+            height: "30vh",
+          }}
+        >
+          <text
+            style={{
+              fontWeight: "bold",
+              color: "yellow",
+              fontSize: isSmallScreen ? "18px" : "23px",
+              paddingLeft: isSmallScreen ? "18px" : "23px",
+              paddingRight: isSmallScreen ? "18px" : "23px",
+              textAlign: "center",
+            }}
+          >
+            Attendance submitted! Please check the QR Code terminal to ensure
+            that it was successful recorded.
+          </text>
+
+          <text>
+            <br />
+            <br />
+          </text>
+
+          <text
+            style={{
+              fontWeight: "bold",
+              color: "yellow",
+              fontSize: isSmallScreen ? "18px" : "23px",
+              paddingBottom: isSmallScreen ? "15px" : "30px",
+              paddingLeft: isSmallScreen ? "18px" : "23px",
+              textAlign: "center",
+            }}
+          >
+            Thank you for keeping SST Inc. #INCredible
+          </text>
+        </div>
+      );
+    } else {
+      if (credentialsAreValid) {
+        return (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <text
+              style={{
+                fontSize: "1.9vh",
+                fontWeight: "bold",
+                color: "white",
+                textAlign: "center",
+                marginBottom: "15px"
+              }}
+            >
+              Scan the QR Code displayed on screen by your teacher to{" "}
+              <span style={{ color: "yellow" }}>mark your attendance</span>
+            </text>
+            <QrScanner
+              onDecode={(result) => {
+                const nolinkResult = result.replaceAll(
+                  "https://attend-inc-sandy.vercel.app/Qr?=",
+                  ""
+                );
+                console.log(nolinkResult);
+                sendtoFirebaseAlert(nolinkResult);
+              }}
+              onError={(error) => console.log(error?.message)}
+            />
+          </div>
+        );
+      } else {
+        return <div></div>;
+      }
+    }
+  }
 
   return (
     <div
@@ -207,11 +299,6 @@ export default function Qr() {
         Logged in with: <br /> {email}
       </text>
 
-      <text style={{ fontSize: "2vh", fontWeight: "bold", color: "white", textAlign: "center" }}>
-        Scan the QR Code displayed on screen by your teacher to{" "}
-        <span style={{ color: "yellow" }}>mark your attendance</span>
-      </text>
-
       <div style={{ margin: "15px 15px 15px 15px" }}>
         <div
           style={{
@@ -221,16 +308,11 @@ export default function Qr() {
             maxHeight: "100vw",
           }}
         >
-          <QrScanner
-            onDecode={(result) => {
-              const nolinkResult = result.replaceAll(
-                "https://attend-inc-sandy.vercel.app/Qr?=",
-                ""
-              );
-              console.log(nolinkResult);
-              sendtoFirebaseAlert(nolinkResult);
-            }}
-            onError={(error) => console.log(error?.message)}
+          <ScannerArea
+            credentialsAreValid={
+              localStorage.getItem("email") != null &&
+              localStorage.getItem("isLoggedIn") != null
+            }
           />
         </div>
       </div>
