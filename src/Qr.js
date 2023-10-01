@@ -6,7 +6,6 @@ import { collection, addDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 
 export default function Qr() {
-
   const isSmallScreen = window.innerWidth <= 600;
 
   const firebaseConfig = {
@@ -249,7 +248,7 @@ export default function Qr() {
                 fontWeight: "bold",
                 color: "white",
                 textAlign: "center",
-                marginBottom: "15px"
+                marginBottom: "15px",
               }}
             >
               Scan the QR Code displayed on screen by your teacher to{" "}
@@ -314,16 +313,24 @@ export default function Qr() {
               localStorage.getItem("isLoggedIn") != null
             }
           />
-        </div>
-      </div>
 
-      <div style={{ marginTop: "15px" }}>
-        <button
-          style={{ backgroundColor: "#e0242f", fontWeight: "bold" }}
-          onClick={logOut}
-        >
-          Log Out
-        </button>
+          <div
+            style={{
+              marginTop: "15px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <button
+              style={{ backgroundColor: "#e0242f", fontWeight: "bold" }}
+              onClick={logOut}
+            >
+              Log Out
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
