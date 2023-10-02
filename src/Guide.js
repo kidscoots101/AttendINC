@@ -28,9 +28,13 @@ const Guide = () => {
       }}
     >
         <header style={{  display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-    <a href="/" onClick={navigate("/")}>
+        <a href="/" onClick={(e) => {
+            e.preventDefault();
+            navigate("/"); 
+            }}>
         <img src={logo} alt="Logo" style={{ height: 40 }} />
-    </a>
+        </a>
+
     <div style={{ display: 'flex', alignItems: 'center' }}>
         <a
             href="https://github.com/kidscoots101/inc-terminal-attendance"
