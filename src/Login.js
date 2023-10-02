@@ -192,7 +192,6 @@ const AttendanceSystem = () => {
             style={{
               color: "white",
               fontSize: 14,
-              paddingTop: 20,
               fontFamily: "'Titillium Web', sans-serif",
             }}
           >

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Guide = () => {
   const [selectedMode, setSelectedMode] = useState('student');
@@ -6,6 +6,9 @@ const Guide = () => {
   const handleModeChange = (mode) => {
     setSelectedMode(mode);
   };
+  useEffect(() => {
+    document.title = `Quick Start - Attend INC`;
+  }, [selectedMode]);
 
   return  (
     <div
