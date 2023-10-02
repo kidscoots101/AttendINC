@@ -39,7 +39,7 @@ const Guide = () => {
             style={{ textDecoration: 'none', color: 'white', fontSize: '16px' }}
         >
             <FontAwesomeIcon icon={faStar} style={{ marginRight: '5px' }} />
-            <i className="fab fa-github" style={{ marginRight: '10px' }}></i> Star Us on Github!
+            <i className="fab fa-github" style={{ }}></i> Star Us on Github!
         </a>
     </div>
 </header>
