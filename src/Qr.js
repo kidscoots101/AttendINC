@@ -183,6 +183,8 @@ export default function Qr() {
     window.location.reload();
   };
 
+  
+
   function ScannerArea(props) {
     const credentialsAreValid = props.credentialsAreValid;
     if (isScanned) {
