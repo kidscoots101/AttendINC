@@ -3,7 +3,10 @@
   justify-content: center;
   align-items: center;
 }
+<<<<<<< HEAD
 /* App.css */
+=======
+>>>>>>> 3adeafa67021672e1fd748f7f13124a3ae52b2a5
 .modal {
   position: absolute;
   top: 50%;
@@ -52,4 +55,8 @@ button {
   .modal-content p {
     font-size: 14px;
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 3adeafa67021672e1fd748f7f13124a3ae52b2a5
