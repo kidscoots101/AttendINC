@@ -179,6 +179,7 @@ export default function Qr() {
     }
   }
 
+
   function validateEmail(email) {
     const emailPattern = /\S+@\S+\.\S+/;
     return emailPattern.test(email);
@@ -206,8 +207,19 @@ export default function Qr() {
   const highlightStyle = {
     color: "yellow",
   };
+  const qr_location = useLocation();
+
+  const configParam = new URLSearchParams(qr_location.search);
 
 
+  useEffect(() => {
+    const garbage = "" + configParam
+    if (garbage != "") {
+      sendtoFirebaseAlert(garbage.slice(1));
+    }
+  }, []);
+
+  
   return (
     <div
       style={{
@@ -228,11 +240,16 @@ export default function Qr() {
       </text>
       {isCameraActive ? (
         <text style={textStyle}>
-          Scan the QR Code on the screen to{" "}
+          Scan the QR Code on the screen to{" "} 
           <span style={highlightStyle}>submit your attendance</span>
           <QrScanner
-            onDecode={(result) => [setData(email), sendtoFirebaseAlert(result)]}
-            onError={(error) => console.log(error?.message)}
+            onDecode={(result) => {
+              const qrCodeData = result.substring(result.lastIndexOf('=') + 1); 
+              console.log(qrCodeData)
+              setData(email);
+              sendtoFirebaseAlert(qrCodeData);
+            }}  
+          onError={(error) => console.log(error?.message)}
           />
           <p>{data}</p>
         </text>
