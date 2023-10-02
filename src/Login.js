@@ -177,6 +177,17 @@ const AttendanceSystem = () => {
         <text style={{ color: "#E1E1E4" }}>Tap this button</text>
       </button> */}
           {/* </GoogleOAuthProvider> */}
+                    <p
+            style={{
+              color: "white",
+              fontSize: 14,
+              paddingTop: 20,
+              fontFamily: "'Titillium Web', sans-serif",
+            }}
+          >
+            new to AttendINC? read our guide <a href="/guide" style={{color: '#61dafb'}}>here</a>
+          </p>
+
           <text
             style={{
               color: "white",

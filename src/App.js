@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import './App.css'
 import Policy from "./Policy";
 import ConfigPage from "./Config";
+import Guide from "./Guide";
 
 export default function App() {
   const [showFullPolicy, setShowFullPolicy] = useState(false);
@@ -42,6 +43,7 @@ export default function App() {
         <Route path="/Qr" element={<Qr />} />
         <Route path="/privacy-policy" element={<Policy />} />
         <Route path="/config" element={<ConfigPage />} />
+        <Route path="/guide" element={<Guide />} />
         <Route path="*" element={<AttendanceSystem />} />
       </Routes>
     </Router>
