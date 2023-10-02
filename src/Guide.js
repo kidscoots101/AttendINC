@@ -66,6 +66,11 @@ const Guide = () => {
             Welcome to the Teacher Mode! Here, educators can access a range of
             powerful tools and resources to enhance their teaching experience.
           </p>
+          <h3>Requirements</h3>
+    <ul>
+      <li>Install the <a href="https://apps.apple.com/us/app/testflight/id899247664" style={{color: '#61dafb'}}>Testflight</a> macOS app on your device. </li>
+      <li>Requires macOS Ventura (or later) or Mac running macOS 12 onwards</li>
+    </ul>
         </div>
       )}
       {selectedMode === 'student' && (
