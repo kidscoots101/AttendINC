@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import logo from './inclogo.png'
+import { useLocation, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+
 
 const Guide = () => {
   const [selectedMode, setSelectedMode] = useState('student');
@@ -9,6 +14,8 @@ const Guide = () => {
   useEffect(() => {
     document.title = `Quick Start - Attend INC`;
   }, [selectedMode]);
+  const navigate = useNavigate();
+
 
   return  (
     <div
@@ -20,6 +27,23 @@ const Guide = () => {
         fontFamily: "'Titillium Web', sans-serif",
       }}
     >
+        <header style={{  display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <a href="/" onClick={navigate("/")}>
+        <img src={logo} alt="Logo" style={{ height: 40 }} />
+    </a>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+        <a
+            href="https://github.com/kidscoots101/inc-terminal-attendance"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: 'none', color: 'white', fontSize: '16px' }}
+        >
+            <FontAwesomeIcon icon={faStar} style={{ marginRight: '5px' }} />
+            <i className="fab fa-github" style={{ marginRight: '10px' }}></i> Star Us on Github!
+        </a>
+    </div>
+</header>
+
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:400,700&display=swap" />
 
       <h1 style={{ color: '#61dafb',  }}>Getting Started with AttendINC</h1>
@@ -68,7 +92,7 @@ const Guide = () => {
           </p>
           <h3>Requirements</h3>
     <ul>
-      <li>Install the <a href="https://apps.apple.com/us/app/testflight/id899247664" style={{color: '#61dafb'}}>Testflight</a> macOS app on your device. </li>
+      <li>Install the <a href="https://apps.apple.com/us/app/testflight/id899247664" target="_black"style={{color: '#61dafb'}}>Testflight</a> macOS app on your device. </li>
       <li>Requires macOS Ventura (or later) or Mac running macOS 12 onwards</li>
     </ul>
         </div>
