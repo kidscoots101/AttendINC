@@ -42,10 +42,7 @@ export default function App() {
         <Route path="/Qr" element={<Qr />} />
         <Route path="/privacy-policy" element={<Policy />} />
         <Route path="/config" element={<ConfigPage />} />
-<<<<<<< HEAD
-=======
         <Route path="*" element={<AttendanceSystem />} />
->>>>>>> 3adeafa67021672e1fd748f7f13124a3ae52b2a5
       </Routes>
     </Router>
   );

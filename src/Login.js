@@ -1,15 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
-// import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { initializeApp } from "firebase/app";
-<<<<<<< HEAD
-import logo from './inc.png'
-=======
 import logo from "./inc.png";
->>>>>>> 3adeafa67021672e1fd748f7f13124a3ae52b2a5
 
 import {
   getAuth,
@@ -31,18 +26,10 @@ const AttendanceSystem = () => {
   //     // window.location.href = "/Qr.js";
   //   };
   useEffect(() => {
-<<<<<<< HEAD
-
-    const isLoggedInLocalStorage = localStorage.getItem("isLoggedIn");
-  if (isLoggedInLocalStorage === "true") {
-    setIsLoggedIn(true);
-  }
-=======
     const isLoggedInLocalStorage = localStorage.getItem("isLoggedIn");
     if (isLoggedInLocalStorage === "true") {
       setIsLoggedIn(true);
     }
->>>>>>> 3adeafa67021672e1fd748f7f13124a3ae52b2a5
 
     gapi.load("client:auth2", () => {
       gapi.auth2.init({ clientId: clientId });
@@ -82,11 +69,7 @@ const AttendanceSystem = () => {
   }
 
   function KKBRB(text) {
-<<<<<<< HEAD
-    var stage1 = K(K(text))
-=======
     var stage1 = K(K(text));
->>>>>>> 3adeafa67021672e1fd748f7f13124a3ae52b2a5
     var stage2 = B(stage1);
     var stage3 = R(stage2);
     var final = B(stage3);
@@ -103,30 +86,18 @@ const AttendanceSystem = () => {
   };
 
   const [email, setEmail] = useState("");
-  // const { setEmail } = useContext(EmailContext);
-
   const responseGoogle = async (response) => {
-    // console.log("Login Success", response);
 
     var currentTime = Math.floor(Date.now() / 1000);
     const email = response.profileObj.email;
     setEmail(email);
     const nemail = KKBRB(email);
-<<<<<<< HEAD
-=======
     localStorage.setItem("email", nemail);
 
     setIsLoggedIn(true);
 
     localStorage.setItem("isLoggedIn", "true");
->>>>>>> 3adeafa67021672e1fd748f7f13124a3ae52b2a5
     localStorage.setItem("email", nemail);
-
-    setIsLoggedIn(true);
-
-
-  localStorage.setItem("isLoggedIn", "true");
-  localStorage.setItem("email", nemail);
 
     navigate(`/Qr`);
     // setEmail(response.profileObj.email);
@@ -141,72 +112,6 @@ const AttendanceSystem = () => {
   return (
     <div>
       {isLoggedin ? (
-<<<<<<< HEAD
-      <Qr />
-      ) : (
-    <div
-      className="qr"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        backgroundColor: "#1D1D20",
-      }}
-    >
-      <link
-        href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600&display=swap"
-        rel="stylesheet"
-      />
-            <img src={logo} alt="Logo" style={{height: 40}}/>
-
-      <h1 style={{ color: "white", fontFamily: "'Titillium Web', sans-serif" }}>
-        AttendINC
-      </h1>
-      <text style={{ color: "white", fontFamily: "'Titillium Web', sans-serif", marginTop: -20, marginBottom: 15 }}>
-        attendance made efficient
-      </text>
-      <text
-        style={{
-          fontFamily: "'Titillium Web', sans-serif",
-          color: "white",
-          fontWeight: "600",
-          fontSize: 15,
-          marginBottom: 25,
-          paddingRight: 20,
-          paddingLeft: 20,
-          textAlign: 'center',
-        }}
-      >
-        Please log in with your SST School email to submit your attendance.
-      </text>
-      <GoogleLogin
-        clientId={process.env.REACT_APP_clientID}
-        buttonText="Sign in with Google"
-        onSuccess={responseGoogle}
-        onFailure={failedLoggedIn}
-        cookiePolicy={"single_host_origin"}
-        style={{
-          backgroundcolor: "blue",
-        }}
-      />
-      {/* <button className="button">
-        <text style={{ color: "#E1E1E4" }}>Tap this button</text>
-      </button> */}
-      {/* </GoogleOAuthProvider> */}
-      <text
-        style={{
-          color: "white",
-          fontSize: 14,
-          paddingTop: 20,
-          fontFamily: "'Titillium Web', sans-serif",
-        }}
-      >
-        developed with ❤️ by 2023 exco members
-      </text>
-
-=======
         <Qr />
       ) : (
         <div
@@ -284,11 +189,7 @@ const AttendanceSystem = () => {
           </text>
         </div>
       )}
->>>>>>> 3adeafa67021672e1fd748f7f13124a3ae52b2a5
     </div>
-    )}
-    </div>
-
   );
 };
 
