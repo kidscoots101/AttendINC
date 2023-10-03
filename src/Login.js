@@ -185,7 +185,7 @@ const AttendanceSystem = () => {
               fontFamily: "'Titillium Web', sans-serif",
             }}
           >
-            new to AttendINC? read our guide <a href="/guide" style={{color: '#61dafb'}}>here</a>
+            new to AttendINC? read our guide <a href="/1L74HhEO8FXXI1uYmbOUTA==ADQHJAOIDJAIXALaEB1Ldsa8" style={{color: '#61dafb'}}>here</a>
           </p>
 
           <text
