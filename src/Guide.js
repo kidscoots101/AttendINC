@@ -162,7 +162,7 @@ const Guide = () => {
         </a>{' '}
         macOS app on your device.
       </li>
-      <li>Requires macOS Ventura (or later) or Mac running macOS 12 onwards</li>
+      <li>Requires macOS Monterrey (or later) or Mac running macOS 12 onwards</li>
     </ul>
     
   </div>
