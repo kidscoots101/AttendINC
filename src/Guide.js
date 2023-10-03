@@ -12,6 +12,8 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import loginimg from './login.png'
 import alertimg from './alert.png'
+import successimg from './success.PNG'
+import endimg from './endscreen.png'
 
 const Guide = () => {
   const [selectedMode, setSelectedMode] = useState('student');
@@ -150,7 +152,7 @@ const Guide = () => {
       {selectedMode === 'student' && (
         <div>
           {/* <h3 style={{ color: '#61dafb' }}>Getting</h3> */}
-          <div style={{ display: 'flex', justifyContent: 'center', height: '200vh', }}>    
+          <div style={{ display: 'flex', justifyContent: 'center', height: '250vh', }}>    
           {/* 
           <div style={circleStyle}>
             <div style={circleStyle1}>
@@ -198,9 +200,9 @@ const Guide = () => {
     </TimelineSeparator>
     <TimelineContent>
       {/*  */}
-      <h3>Point your camera towards the QR code on the screen.</h3>
-      <p style={{ color: '#9ba1a6' }}>Make sure it is <u>fully</u> shown in the camera.</p>
-      <img src={loginimg} width="239" height="250" style={{ borderRadius: 10, marginTop: 20 }} />
+      <h3>Point your camera towards the QR code on the screen and a pop up should appear.</h3>
+      <p style={{ color: '#9ba1a6' }}>Make sure it is <u>fully</u> shown in the camera and press 'OK'.</p>
+      <img src={successimg} width="239" height="500" style={{ borderRadius: 10, marginTop: 20 }} />
     </TimelineContent>
   </TimelineItem>
   <TimelineSeparator>
@@ -208,21 +210,20 @@ const Guide = () => {
   </TimelineSeparator>
   <TimelineItem>
     <TimelineSeparator>
-      <TimelineDot color="primary" variant="outlined" />
+      <TimelineDot color="success" variant="outlined" />
     </TimelineSeparator>
     <TimelineContent>
       {/*  */}
-      <h3>Permissions</h3>
-      <p style={{ color: '#9ba1a6' }}>Click 'Allow Camera Access'. (don't worry we are not stealing any data)</p>
-      <img src={alertimg} width="300" height="250" style={{ borderRadius: 10, marginTop: 20 }} />
+      <h3>Success!</h3>
+      <p style={{ color: '#9ba1a6' }}>Upon pressing 'OK', you should be directed to the screen below. Do remember to double-check your name on the admin console. If you encounter any issues, do tell the person-in-charge or the nearest ExCo </p>
+      <img src={endimg} width="239" height="500" style={{ borderRadius: 10, marginTop: 20 }} />
     </TimelineContent>
   </TimelineItem>
 </Timeline>
-
 </div>
-
         </div>
       )}
+    
     </div>
   );
 };

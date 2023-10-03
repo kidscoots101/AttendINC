@@ -125,6 +125,7 @@ export default function Qr() {
       }
     );
     setIsScanned(true);
+    setCameraActive(false)
     setTimeout(function () {}, 15000);
   }
 
