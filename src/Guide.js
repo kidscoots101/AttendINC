@@ -53,6 +53,25 @@ const Guide = () => {
     height: '100vh', // You can adjust this to center vertically within the viewport
     minHeight: '100vh'
   };
+  const [screenSize, setScreenSize] = useState(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setScreenSize('phone');
+      } else {
+        setScreenSize('mac');
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   return  (
     <div
       style={{
@@ -152,7 +171,7 @@ const Guide = () => {
       {selectedMode === 'student' && (
         <div>
           {/* <h3 style={{ color: '#61dafb' }}>Getting</h3> */}
-          <div style={{ display: 'flex', justifyContent: 'center', height: '250vh', }}>    
+          <div style={{ justifyContent: 'center', height: screenSize === 'mac' ? '275vh' : '300vh', }}>    
           {/* 
           <div style={circleStyle}>
             <div style={circleStyle1}>
@@ -162,7 +181,7 @@ const Guide = () => {
         </div>   
           */}
           
-          <Timeline position='alternate'>
+          <Timeline position={screenSize === 'mac' ? 'alternate' : 'none'}>
   <TimelineItem>
     <TimelineSeparator>
       <TimelineDot color="primary" variant="outlined" />
@@ -187,7 +206,7 @@ const Guide = () => {
       {/*  */}
       <h3>Permissions</h3>
       <p style={{ color: '#9ba1a6' }}>Click 'Allow Camera Access'. (don't worry we are not stealing any data)</p>
-      <img src={alertimg} width="300" height="250" style={{ borderRadius: 10, marginTop: 20 }} />
+      <img src={alertimg} width={screenSize === 'mac' ? '300' : '250'} height={screenSize === 'mac' ? '250' : '200'} style={{ borderRadius: 10, marginTop: 20 }} />
     </TimelineContent>
   </TimelineItem>
   <TimelineSeparator>
