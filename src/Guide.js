@@ -10,6 +10,9 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
+import loginimg from './login.png'
+import alertimg from './alert.png'
+
 const Guide = () => {
   const [selectedMode, setSelectedMode] = useState('student');
 
@@ -169,7 +172,9 @@ const Guide = () => {
     </TimelineSeparator>
     <TimelineContent>
         {/*  */}
-        <text>Login</text>
+       <h3>Login to AttendINC with your <a href="https://www.sst.edu.sg/" target="_blank" style={{color: '#61dafb'}}>SST</a> school email</h3>
+       <text style={{color: '#9ba1a6'}}>This is important to ensure that we know you are the one inside our list.</text>
+       <img src={loginimg} width="239" height="250" style={{borderRadius: 10}} />
     </TimelineContent>
   </TimelineItem>
   <TimelineItem>
@@ -178,6 +183,9 @@ const Guide = () => {
     </TimelineSeparator>
     <TimelineContent>
         {/*  */}
+        <h3>Permissions</h3>
+        <text style={{color: '#9ba1a6'}}>Click 'Allow Camera Access'. (don't worry we are not stealing any data)</text>
+        <img src={alertimg} width="300" height="250" style={{borderRadius: 10}} />
     </TimelineContent>
   </TimelineItem>
 </Timeline>
