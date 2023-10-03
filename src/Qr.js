@@ -124,7 +124,7 @@ export default function Qr() {
         timeOnQRCode: Number(parts[2]),
       }
     );
-
+    setIsScanned(true);
     setTimeout(function () {}, 15000);
   }
 
@@ -188,7 +188,6 @@ export default function Qr() {
   function ScannerArea(props) {
     const credentialsAreValid = props.credentialsAreValid;
     if (isScanned) {
-      setCameraActive(false);
       return (
         <div
           style={{
