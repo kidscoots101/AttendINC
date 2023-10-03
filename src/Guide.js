@@ -149,12 +149,8 @@ const Guide = () => {
 
       {selectedMode === 'student' && (
         <div>
-          <h3 style={{ color: '#61dafb' }}>Step 1</h3>
-          <p>
-            Welcome to the Student Mode! Students can find study materials,
-            assignments, and resources to support their learning journey.
-          </p>
-          <div style={{ display: 'flex', justifyContent: 'center', height: '100vh', }}>    
+          {/* <h3 style={{ color: '#61dafb' }}>Getting</h3> */}
+          <div style={{ display: 'flex', justifyContent: 'center', height: '200vh', }}>    
           {/* 
           <div style={circleStyle}>
             <div style={circleStyle1}>
@@ -164,32 +160,65 @@ const Guide = () => {
         </div>   
           */}
           
-        <Timeline position="alternate">
-            
+          <Timeline position='alternate'>
   <TimelineItem>
     <TimelineSeparator>
-      <TimelineDot color="secondary" />
+      <TimelineDot color="primary" variant="outlined" />
       <TimelineConnector />
     </TimelineSeparator>
     <TimelineContent>
-        {/*  */}
-       <h3>Login to AttendINC with your <a href="https://www.sst.edu.sg/" target="_blank" style={{color: '#61dafb'}}>SST</a> school email</h3>
-       <text style={{color: '#9ba1a6'}}>This is important to ensure that we know you are the one inside our list.</text>
-       <img src={loginimg} width="239" height="250" style={{borderRadius: 10, marginTop: 20}} />
+      {/*  */}
+      <h3>Login to AttendINC with your <a href="https://www.sst.edu.sg/" target="_blank" style={{ color: '#61dafb' }}>SST</a> school email</h3>
+      <p style={{ color: '#9ba1a6' }}>This is important to ensure that we know you are the one inside our list.</p>
+      <img src={loginimg} width="239" height="250" style={{ borderRadius: 10, marginTop: 20 }} />
     </TimelineContent>
   </TimelineItem>
+  <TimelineSeparator>
+    <TimelineConnector />
+  </TimelineSeparator>
   <TimelineItem>
     <TimelineSeparator>
-      <TimelineDot color="success" />
+      <TimelineDot color="primary" variant="outlined" />
+      <TimelineConnector />
     </TimelineSeparator>
     <TimelineContent>
-        {/*  */}
-        <h3>Permissions</h3>
-        <text style={{color: '#9ba1a6'}}>Click 'Allow Camera Access'. (don't worry we are not stealing any data)</text>
-        <img src={alertimg} width="300" height="250" style={{borderRadius: 10, marginTop: 20}} />
+      {/*  */}
+      <h3>Permissions</h3>
+      <p style={{ color: '#9ba1a6' }}>Click 'Allow Camera Access'. (don't worry we are not stealing any data)</p>
+      <img src={alertimg} width="300" height="250" style={{ borderRadius: 10, marginTop: 20 }} />
+    </TimelineContent>
+  </TimelineItem>
+  <TimelineSeparator>
+    <TimelineConnector />
+  </TimelineSeparator>
+  <TimelineItem>
+    <TimelineSeparator>
+      <TimelineDot color="primary" variant="outlined" />
+      <TimelineConnector />
+    </TimelineSeparator>
+    <TimelineContent>
+      {/*  */}
+      <h3>Login to AttendINC with your <a href="https://www.sst.edu.sg/" target="_blank" style={{ color: '#61dafb' }}>SST</a> school email</h3>
+      <p style={{ color: '#9ba1a6' }}>This is important to ensure that we know you are the one inside our list.</p>
+      <img src={loginimg} width="239" height="250" style={{ borderRadius: 10, marginTop: 20 }} />
+    </TimelineContent>
+  </TimelineItem>
+  <TimelineSeparator>
+    <TimelineConnector />
+  </TimelineSeparator>
+  <TimelineItem>
+    <TimelineSeparator>
+      <TimelineDot color="primary" variant="outlined" />
+    </TimelineSeparator>
+    <TimelineContent>
+      {/*  */}
+      <h3>Permissions</h3>
+      <p style={{ color: '#9ba1a6' }}>Click 'Allow Camera Access'. (don't worry we are not stealing any data)</p>
+      <img src={alertimg} width="300" height="250" style={{ borderRadius: 10, marginTop: 20 }} />
     </TimelineContent>
   </TimelineItem>
 </Timeline>
+
 </div>
 
         </div>
