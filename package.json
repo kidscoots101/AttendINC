@@ -4,9 +4,13 @@
   "private": true,
   "dependencies": {
     "@codesaursx/react-scanner": "^1.1.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@grindstaff/react-qr-barcode-scanner": "^1.0.9",
+    "@mui/lab": "^5.0.0-alpha.146",
+    "@mui/material": "^5.14.11",
     "@react-oauth/google": "^0.11.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

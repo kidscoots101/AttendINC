@@ -3,8 +3,13 @@ import logo from './inclogo.png'
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-
-
+import './Guide.css'
+import Timeline from '@mui/lab/Timeline';
+import TimelineItem from '@mui/lab/TimelineItem';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import TimelineConnector from '@mui/lab/TimelineConnector';
+import TimelineContent from '@mui/lab/TimelineContent';
+import TimelineDot from '@mui/lab/TimelineDot';
 const Guide = () => {
   const [selectedMode, setSelectedMode] = useState('student');
 
@@ -15,8 +20,33 @@ const Guide = () => {
     document.title = `Quick Start - Attend INC`;
   }, [selectedMode]);
   const navigate = useNavigate();
-
-
+  const circleStyle = {
+    width: '220px',    
+    height: '220px',   
+    borderRadius: '50%', 
+    backgroundColor: '#61dafb', 
+    backgroundColor: 'rgba(0, 0, 255, 0.6)',
+    justifyContent: 'center',
+    display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  };
+  const circleStyle1 = {
+    width: '150px',    
+    height: '150px',   
+    borderRadius: '50%', 
+    backgroundColor: '#61dafb', 
+    backgroundColor: 'rgba(0, 0, 255, 0.8)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  };
+  const containerStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh', // You can adjust this to center vertically within the viewport
+  };
   return  (
     <div
       style={{
@@ -32,7 +62,7 @@ const Guide = () => {
             e.preventDefault();
             navigate("/"); 
             }}>
-        <img src={logo} alt="Logo" style={{ height: 40 }} />
+        <img src={logo} alt="Logo" style={{ height: 40, borderRadius: 10 }} />
         </a>
 
     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -50,7 +80,7 @@ const Guide = () => {
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:400,700&display=swap" />
 
-      <h1 style={{ color: '#61dafb',  }}>Getting Started with AttendINC</h1>
+      <h1 style={{ color: '#61dafb',  }}>Getting Started with <u>AttendINC</u></h1>
       <p>
         Welcome to the documentation for AttendINC! In this guide, we
         will walk you through the basics of getting started and using our
@@ -88,26 +118,71 @@ const Guide = () => {
         </button>
       </div>
       {selectedMode === 'teacher' && (
-        <div>
-          <h3 style={{ color: '#61dafb' }}>Teacher Mode Content</h3>
-          <p>
-            Welcome to the Teacher Mode! Here, educators can access a range of
-            powerful tools and resources to enhance their teaching experience.
-          </p>
-          <h3>Requirements</h3>
+  <div>
+    <h3 style={{ color: '#61dafb' }}>Teacher Mode Content</h3>
+    <p>
+      Welcome to the Teacher Mode! Here, educators can access a range of
+      powerful tools and resources to enhance their teaching experience.
+    </p>
+    <h3>Requirements</h3>
     <ul>
-      <li>Install the <a href="https://apps.apple.com/us/app/testflight/id899247664" target="_black"style={{color: '#61dafb'}}>Testflight</a> macOS app on your device. </li>
+      <li>
+        Install the{' '}
+        <a
+          href="https://apps.apple.com/us/app/testflight/id899247664"
+          target="_blank"
+          style={{ color: '#61dafb' }}
+        >
+          Testflight
+        </a>{' '}
+        macOS app on your device.
+      </li>
       <li>Requires macOS Ventura (or later) or Mac running macOS 12 onwards</li>
     </ul>
-        </div>
-      )}
+    
+  </div>
+)}
+
       {selectedMode === 'student' && (
         <div>
-          <h3 style={{ color: '#61dafb' }}>Student Mode Content</h3>
+          <h3 style={{ color: '#61dafb' }}>Step 1</h3>
           <p>
             Welcome to the Student Mode! Students can find study materials,
             assignments, and resources to support their learning journey.
           </p>
+          <div style={{ display: 'flex', justifyContent: 'center', height: '50vh' }}>    
+          {/* 
+          <div style={circleStyle}>
+            <div style={circleStyle1}>
+                <text style={{fontWeight: 'bold', fontSize: 25}}>Develop</text>
+                
+                </div>
+        </div>   
+          */}
+          
+        <Timeline position="alternate">
+            
+  <TimelineItem>
+    <TimelineSeparator>
+      <TimelineDot color="secondary" />
+      <TimelineConnector />
+    </TimelineSeparator>
+    <TimelineContent>
+        {/*  */}
+        <text>Login</text>
+    </TimelineContent>
+  </TimelineItem>
+  <TimelineItem>
+    <TimelineSeparator>
+      <TimelineDot color="success" />
+    </TimelineSeparator>
+    <TimelineContent>
+        {/*  */}
+    </TimelineContent>
+  </TimelineItem>
+</Timeline>
+</div>
+
         </div>
       )}
     </div>
