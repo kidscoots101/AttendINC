@@ -198,8 +198,8 @@ const Guide = () => {
     </TimelineSeparator>
     <TimelineContent>
       {/*  */}
-      <h3>Login to AttendINC with your <a href="https://www.sst.edu.sg/" target="_blank" style={{ color: '#61dafb' }}>SST</a> school email</h3>
-      <p style={{ color: '#9ba1a6' }}>This is important to ensure that we know you are the one inside our list.</p>
+      <h3>Point your camera towards the QR code on the screen.</h3>
+      <p style={{ color: '#9ba1a6' }}>Make sure it is <u>fully</u> shown in the camera.</p>
       <img src={loginimg} width="239" height="250" style={{ borderRadius: 10, marginTop: 20 }} />
     </TimelineContent>
   </TimelineItem>

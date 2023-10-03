@@ -188,6 +188,7 @@ export default function Qr() {
   function ScannerArea(props) {
     const credentialsAreValid = props.credentialsAreValid;
     if (isScanned) {
+      setCameraActive(false);
       return (
         <div
           style={{
