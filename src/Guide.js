@@ -49,6 +49,7 @@ const Guide = () => {
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh', // You can adjust this to center vertically within the viewport
+    minHeight: '100vh'
   };
   return  (
     <div
@@ -153,7 +154,7 @@ const Guide = () => {
             Welcome to the Student Mode! Students can find study materials,
             assignments, and resources to support their learning journey.
           </p>
-          <div style={{ display: 'flex', justifyContent: 'center', height: '50vh' }}>    
+          <div style={{ display: 'flex', justifyContent: 'center', height: '100vh', }}>    
           {/* 
           <div style={circleStyle}>
             <div style={circleStyle1}>
@@ -174,7 +175,7 @@ const Guide = () => {
         {/*  */}
        <h3>Login to AttendINC with your <a href="https://www.sst.edu.sg/" target="_blank" style={{color: '#61dafb'}}>SST</a> school email</h3>
        <text style={{color: '#9ba1a6'}}>This is important to ensure that we know you are the one inside our list.</text>
-       <img src={loginimg} width="239" height="250" style={{borderRadius: 10}} />
+       <img src={loginimg} width="239" height="250" style={{borderRadius: 10, marginTop: 20}} />
     </TimelineContent>
   </TimelineItem>
   <TimelineItem>
@@ -185,7 +186,7 @@ const Guide = () => {
         {/*  */}
         <h3>Permissions</h3>
         <text style={{color: '#9ba1a6'}}>Click 'Allow Camera Access'. (don't worry we are not stealing any data)</text>
-        <img src={alertimg} width="300" height="250" style={{borderRadius: 10}} />
+        <img src={alertimg} width="300" height="250" style={{borderRadius: 10, marginTop: 20}} />
     </TimelineContent>
   </TimelineItem>
 </Timeline>
