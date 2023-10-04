@@ -11,6 +11,7 @@
     "@grindstaff/react-qr-barcode-scanner": "^1.0.9",
     "@mui/lab": "^5.0.0-alpha.146",
     "@mui/material": "^5.14.11",
+    "@mui/styles": "^5.14.11",
     "@react-oauth/google": "^0.11.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

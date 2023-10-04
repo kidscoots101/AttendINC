@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import logo from './inclogo.png'
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import './Guide.css'
@@ -14,7 +14,10 @@ import loginimg from './login.png'
 import alertimg from './alert.png'
 import successimg from './success.PNG'
 import endimg from './endscreen.png'
-
+import Box from '@mui/material/Box';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
 const Guide = () => {
   const [selectedMode, setSelectedMode] = useState('student');
 
@@ -50,7 +53,7 @@ const Guide = () => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh', // You can adjust this to center vertically within the viewport
+    height: '100vh',
     minHeight: '100vh'
   };
   const [screenSize, setScreenSize] = useState(null);
@@ -72,6 +75,11 @@ const Guide = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+  const steps = [
+    'Install the AttendINC Mac app on your device through Testflight',
+    'Launch app and select spreadsheet ID',
+  ];
+
   return  (
     <div
       style={{
@@ -164,6 +172,39 @@ const Guide = () => {
       </li>
       <li>Requires macOS Monterrey (or later) or Mac running macOS 12 onwards</li>
     </ul>
+    <Box sx={{ width: '100%' }}>
+      <Stepper activeStep={1} alternativeLabel>
+        {steps.map((label) => (
+          <Step key={label} 
+          sx={{
+            '& .MuiStepLabel-root .Mui-completed': {
+              color: '#61afdb', 
+            },
+            '& .MuiStepLabel-label.Mui-completed.MuiStepLabel-alternativeLabel':
+              {
+                color: 'common.white',
+                fontWeight: 'bold'
+              },
+            '& .MuiStepLabel-root .Mui-active': {
+              color: '#61afdbn', 
+            },
+            '& .MuiStepLabel-label.Mui-active.MuiStepLabel-alternativeLabel':
+              {
+                color: 'common.white', 
+                fontWeight: 'bold'
+              },
+            '& .MuiStepLabel-root .Mui-active .MuiStepIcon-text': {
+              fill: 'black',
+            },
+          }}
+          >
+            <StepLabel>{label}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+    </Box>
+
+    
     
   </div>
 )}
