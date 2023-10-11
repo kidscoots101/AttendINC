@@ -9,6 +9,7 @@ import {
   AffinidiLoginButton,
   useAffinidiProfile,
 } from "@affinidi/affinidi-react-auth";
+import { useMediaQuery } from "react-responsive";
 
 const AttendanceSystem = () => {
   const { isLoading, error, profile, handleLogout } = useAffinidiProfile();
@@ -112,6 +113,7 @@ const AttendanceSystem = () => {
       console.error("Error signing in:", error);
     }
   };
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   return (
     <div>
       {isLoggedin ? (
@@ -176,7 +178,41 @@ const AttendanceSystem = () => {
               backgroundcolor: "blue",
             }}
           />
-          <AffinidiLoginButton />
+          {!isMobile && !profile && (
+            <>
+              <AffinidiLoginButton />
+            </>
+          )}
+
+          {isLoading && <p>Loading...</p>}
+
+          {profile && (
+            <>
+              <text
+                style={{
+                  fontFamily: "'Titillium Web', sans-serif",
+                  color: "white",
+                  fontWeight: "600",
+                  fontSize: 15,
+                  marginTop: 25,
+                  textAlign: "center",
+                }}
+              >
+                Affinidi Auth Success!
+              </text>
+              <button style={{ marginRight: 10 }} onClick={logout}>
+                Logout
+              </button>
+            </>
+          )}
+
+          {error && (
+            <>
+              <h2>error</h2>
+              {error}
+            </>
+          )}
+
           {/* <button className="button">
         <text style={{ color: "#E1E1E4" }}>Tap this button</text>
       </button> */}
