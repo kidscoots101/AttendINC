@@ -1,6 +1,7 @@
 var express = require("express");
 require("dotenv").config();
 const { affinidiProvider } = require("@affinidi/passport-affinidi");
+const { createNodeMiddleware } = require("@vercel/node");
 
 var app = express();
 app.use(express.json());
@@ -27,3 +28,4 @@ const initializeServer = async () => {
 };
 
 initializeServer();
+module.exports = createNodeMiddleware(app);
