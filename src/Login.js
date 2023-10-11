@@ -1,20 +1,23 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import { initializeApp } from "firebase/app";
 import logo from "./inc.png";
-
-import {
-  getAuth,
-  signInWithRedirect,
-  GoogleAuthProvider,
-  getRedirectResult,
-} from "firebase/auth";
 import Qr from "./Qr";
+import {
+  AffinidiLoginButton,
+  useAffinidiProfile,
+} from "@affinidi/affinidi-react-auth";
 
 const AttendanceSystem = () => {
+  const { isLoading, error, profile, handleLogout } = useAffinidiProfile();
+
+  async function logout() {
+    //clear session cookie
+    handleLogout();
+    window.location.href = "/";
+  }
   const [isLoggedin, setIsLoggedIn] = useState(false);
   const clientId = process.env.REACT_APP_clientID;
   //   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -86,8 +89,8 @@ const AttendanceSystem = () => {
   };
 
   const [email, setEmail] = useState("");
-  const responseGoogle = async (response) => {
 
+  const responseGoogle = async (response) => {
     var currentTime = Math.floor(Date.now() / 1000);
     const email = response.profileObj.email;
     setEmail(email);
@@ -173,11 +176,12 @@ const AttendanceSystem = () => {
               backgroundcolor: "blue",
             }}
           />
+          <AffinidiLoginButton />
           {/* <button className="button">
         <text style={{ color: "#E1E1E4" }}>Tap this button</text>
       </button> */}
           {/* </GoogleOAuthProvider> */}
-                    <p
+          <p
             style={{
               color: "white",
               fontSize: 14,
@@ -185,7 +189,13 @@ const AttendanceSystem = () => {
               fontFamily: "'Titillium Web', sans-serif",
             }}
           >
-            new to AttendINC? read our guide <a href="/1L74HhEO8FXXI1uYmbOUTA==ADQHJAOIDJAIXALaEB1Ldsa8" style={{color: '#61dafb'}}>here</a>
+            new to AttendINC? read our guide{" "}
+            <a
+              href="/1L74HhEO8FXXI1uYmbOUTA==ADQHJAOIDJAIXALaEB1Ldsa8"
+              style={{ color: "#61dafb" }}
+            >
+              here
+            </a>
           </p>
 
           <text

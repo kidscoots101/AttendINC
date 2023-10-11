@@ -4,15 +4,7 @@ import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import { initializeApp } from "firebase/app";
-import QRCode from "react-qr-code";
-
-import {
-  getAuth,
-  signInWithRedirect,
-  GoogleAuthProvider,
-  getRedirectResult,
-} from "firebase/auth";
+import React from "react";
 
 const AttendanceSystem = () => {
   const [isLoggedin, setIsLoggedIn] = useState(false);
@@ -69,10 +61,10 @@ const AttendanceSystem = () => {
     }
 
     return result;
-  };
+  }
 
   function KKBRB(text) {
-    var stage1 = K(K(text))
+    var stage1 = K(K(text));
     var stage2 = B(stage1);
     var stage3 = R(stage2);
     var final = B(stage3);
@@ -92,7 +84,7 @@ const AttendanceSystem = () => {
   // const { setEmail } = useContext(EmailContext);
 
   const responseGoogle = async (response) => {
-   // console.log("Login Success", response);
+    // console.log("Login Success", response);
 
     var currentTime = Math.floor(Date.now() / 1000);
     const email = response.profileObj.email;
@@ -136,7 +128,7 @@ const AttendanceSystem = () => {
           marginBottom: 25,
           paddingRight: 20,
           paddingLeft: 20,
-          textAlign: 'center',
+          textAlign: "center",
         }}
       >
         Please log in with your SST School email to submit your attendance.
@@ -151,6 +143,7 @@ const AttendanceSystem = () => {
           backgroundcolor: "blue",
         }}
       />
+
       {/* <button className="button">
         <text style={{ color: "#E1E1E4" }}>Tap this button</text>
       </button> */}
