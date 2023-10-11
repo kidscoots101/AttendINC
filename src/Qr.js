@@ -4,9 +4,14 @@ import { QrScanner } from "@yudiel/react-qr-scanner";
 import { getFirestore } from "firebase/firestore";
 import { collection, addDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
+import {
+  AffinidiLoginButton,
+  useAffinidiProfile,
+} from "@affinidi/affinidi-react-auth";
 
 export default function Qr() {
   const isSmallScreen = window.innerWidth <= 600;
+  const { isLoading, error, profile, handleLogout } = useAffinidiProfile();
 
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_apiKey,
@@ -116,16 +121,16 @@ export default function Qr() {
         db,
         process.env.REACT_APP_firebaseRootCollection,
         parts[1],
-        process.env.REACT_APP_firebaseDocumentCollection
+        process.env.REACT_APP_firebaseDocumentCollection,
       ),
       {
         email: email,
         timeOfPost: timeNow,
         timeOnQRCode: Number(parts[2]),
-      }
+      },
     );
     setIsScanned(true);
-    setCameraActive(false)
+    setCameraActive(false);
     setTimeout(function () {}, 15000);
   }
 
@@ -137,7 +142,7 @@ export default function Qr() {
 
     const timeNow = Number(Date.now());
     const confirmResponse = window.confirm(
-      `Press OK to submit attendance in ${parts[0]}`
+      `Press OK to submit attendance in ${parts[0]}`,
     );
     if (confirmResponse) {
       setIsScanned(true);
@@ -182,9 +187,8 @@ export default function Qr() {
     setCameraActive(false);
     navigate("/");
     window.location.reload();
+    handleLogout();
   };
-
-  
 
   function ScannerArea(props) {
     const credentialsAreValid = props.credentialsAreValid;
@@ -261,7 +265,7 @@ export default function Qr() {
               onDecode={(result) => {
                 const nolinkResult = result.replaceAll(
                   "https://attend-inc-sandy.vercel.app/Qr?=",
-                  ""
+                  "",
                 );
                 console.log(nolinkResult);
                 sendtoFirebaseAlert(nolinkResult);

@@ -28,34 +28,7 @@ const Guide = () => {
     document.title = `Quick Start - Attend INC`;
   }, [selectedMode]);
   const navigate = useNavigate();
-  const circleStyle = {
-    width: '220px',    
-    height: '220px',   
-    borderRadius: '50%', 
-    backgroundColor: '#61dafb', 
-    backgroundColor: 'rgba(0, 0, 255, 0.6)',
-    justifyContent: 'center',
-    display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  };
-  const circleStyle1 = {
-    width: '150px',    
-    height: '150px',   
-    borderRadius: '50%', 
-    backgroundColor: '#61dafb', 
-    backgroundColor: 'rgba(0, 0, 255, 0.8)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  };
-  const containerStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-    minHeight: '100vh'
-  };
+
   const [screenSize, setScreenSize] = useState(null);
 
   useEffect(() => {
