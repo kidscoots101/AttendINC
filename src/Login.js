@@ -233,10 +233,7 @@ const AttendanceSystem = () => {
             }}
           >
             new to AttendINC? read our guide{" "}
-            <a
-              href="/1L74HhEO8FXXI1uYmbOUTA==ADQHJAOIDJAIXALaEB1Ldsa8"
-              style={{ color: "#61dafb" }}
-            >
+            <a href="/docs" style={{ color: "#61dafb" }}>
               here
             </a>
           </p>

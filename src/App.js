@@ -26,7 +26,7 @@ export default function App() {
 
   return (
     <Router>
-     <Modal
+      <Modal
         isOpen={showFullPolicy}
         onRequestClose={setShowFullPolicy}
         className="modal"
@@ -34,7 +34,10 @@ export default function App() {
       >
         <div className="modal-content">
           <h2>UPDATE!</h2>
-          <p>Our privacy policy has been updated! Please read our <a href="/privacy-policy">Privacy Policy</a>.</p>
+          <p>
+            Our privacy policy has been updated! Please read our{" "}
+            <a href="/privacy-policy">Privacy Policy</a>.
+          </p>
           <button onClick={handleAccept}>Got it!</button>
         </div>
       </Modal>
@@ -43,7 +46,7 @@ export default function App() {
         <Route path="/Qr" element={<Qr />} />
         <Route path="/privacy-policy" element={<Policy />} />
         <Route path="/config" element={<ConfigPage />} />
-        <Route path="/1L74HhEO8FXXI1uYmbOUTA==ADQHJAOIDJAIXALaEB1Ldsa8" element={<Guide />} />
+        <Route path="/docs" element={<Guide />} />
         <Route path="*" element={<AttendanceSystem />} />
       </Routes>
     </Router>
