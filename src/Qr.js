@@ -8,6 +8,8 @@ import {
   AffinidiLoginButton,
   useAffinidiProfile,
 } from "@affinidi/affinidi-react-auth";
+import "./Qr.css";
+import logo from "./inc.png";
 
 export default function Qr() {
   const isSmallScreen = window.innerWidth <= 600;
@@ -135,11 +137,13 @@ export default function Qr() {
   }
 
   const [isCameraActive, setCameraActive] = useState(true);
+  const [location, setLocation] = useState("");
+  const [time, setTime] = useState("");
+  const [id, setID] = useState("");
 
   function sendtoFirebaseAlert(qr) {
     const unKKBRBInfo = unKKBRB(qr);
     const parts = unKKBRBInfo.split(process.env.REACT_APP_unKKBRBInfoSplitter);
-
     const timeNow = Number(Date.now());
     const confirmResponse = window.confirm(
       `Press OK to submit attendance in ${parts[0]}`,
@@ -148,7 +152,30 @@ export default function Qr() {
       setIsScanned(true);
       sendToFirebase(qr, timeNow);
       setCameraActive(false);
+      setLocation(parts[0]);
+      setTime(timeNow);
+      setID(parts[1].split("-"));
     }
+  }
+  function padZero(number) {
+    return number < 10 ? "0" + number : number;
+  }
+  function convertTimestampToSGT(timestamp) {
+    var date = new Date(timestamp);
+
+    date.setUTCHours(date.getUTCHours() + 8);
+
+    var year = date.getUTCFullYear();
+    var month = date.getUTCMonth() + 1;
+    var day = date.getUTCDate();
+    var hours = date.getUTCHours();
+    var minutes = date.getUTCMinutes();
+    var seconds = date.getUTCSeconds();
+    var formattedDate = `${year}-${padZero(month)}-${padZero(day)} ${padZero(
+      hours,
+    )}:${padZero(minutes)}:${padZero(seconds)}`;
+
+    return formattedDate;
   }
 
   function validateEmail(email) {
@@ -192,50 +219,90 @@ export default function Qr() {
 
   function ScannerArea(props) {
     const credentialsAreValid = props.credentialsAreValid;
+    // const parts = unKKBRBInfo.split(process.env.REACT_APP_unKKBRBInfoSplitter);
+
     if (isScanned) {
       return (
-        <div
-          style={{
-            backgroundColor: "#1D1D20",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            textAlign: "center",
-            height: "30vh",
-          }}
-        >
-          <text
-            style={{
-              fontWeight: "bold",
-              color: "yellow",
-              fontSize: isSmallScreen ? "18px" : "23px",
-              paddingLeft: isSmallScreen ? "18px" : "23px",
-              paddingRight: isSmallScreen ? "18px" : "23px",
-              textAlign: "center",
-            }}
-          >
-            Attendance submitted! Please check the QR Code terminal to ensure
-            that it was successful recorded.
-          </text>
+        <div className="white-box">
+          <div style={{ marginBottom: "20px", width: "100%" }}>
+            <link
+              href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600&display=swap"
+              rel="stylesheet"
+            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: 15,
+              }}
+            >
+              <img
+                src={logo}
+                alt="Logo"
+                style={{ height: 40, marginRight: "10px" }}
+              />
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  fontSize: 23,
+                  fontWeight: "bold",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "'Titillium Web', sans-serif",
+                  }}
+                >
+                  # {id[0]}
+                </span>
+              </div>
+            </div>
+          </div>
 
-          <text>
-            <br />
-            <br />
-          </text>
+          <div style={{ marginBottom: "20px" }}>
+            <span
+              style={{
+                fontWeight: "500",
+                fontSize: "35px",
+                fontFamily: "'Titillium Web', sans-serif",
+                /* Add a media query for smaller screens */
+                "@media (max-width: 768px)": {
+                  fontSize: "30px",
+                },
+              }}
+            >
+              {location}
+            </span>
+          </div>
 
-          <text
-            style={{
-              fontWeight: "bold",
-              color: "yellow",
-              fontSize: isSmallScreen ? "18px" : "23px",
-              paddingBottom: isSmallScreen ? "15px" : "30px",
-              paddingLeft: isSmallScreen ? "18px" : "23px",
-              textAlign: "center",
-            }}
-          >
-            Thank you for keeping SST Inc. #INCredible
-          </text>
+          <div style={{ marginBottom: "20px" }}>
+            <span
+              style={{
+                fontWeight: "bold",
+                fontSize: "28px",
+                fontFamily: "'Titillium Web', sans-serif",
+              }}
+            >
+              {email && email.split("@")[0].replace(/_/g, " ").toUpperCase()}{" "}
+              stu
+            </span>
+          </div>
+
+          <div style={{ marginBottom: "20px" }}>
+            <span
+              style={{
+                fontWeight: "bold",
+                fontSize: "21px",
+                fontFamily: "'Titillium Web', sans-serif",
+                "@media (max-width: 768px)": {
+                  fontSize: "15px",
+                },
+              }}
+            >
+              {convertTimestampToSGT(time)}
+            </span>
+          </div>
         </div>
       );
     } else {
@@ -292,6 +359,10 @@ export default function Qr() {
         width: "100vw",
       }}
     >
+      <link
+        href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600&display=swap"
+        rel="stylesheet"
+      />
       <text
         style={{
           fontWeight: "bold",
@@ -300,6 +371,7 @@ export default function Qr() {
           marginLeft: "15px",
           marginRight: "15px",
           textAlign: "center",
+          fontFamily: "'Titillium Web', sans-serif",
         }}
       >
         Logged in with: <br /> {email}
@@ -331,7 +403,11 @@ export default function Qr() {
             }}
           >
             <button
-              style={{ backgroundColor: "#e0242f", fontWeight: "bold" }}
+              style={{
+                backgroundColor: "#e0242f",
+                fontWeight: "bold",
+                marginTop: 15,
+              }}
               onClick={logOut}
             >
               Log Out

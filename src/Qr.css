@@ -1,0 +1,18 @@
+.white-box {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .white-box {
+        width: 300px;
+    }
+}
