@@ -318,11 +318,12 @@ export default function Qr() {
           >
             <text
               style={{
-                fontSize: "1.9vh",
+                fontSize: "2vh",
                 fontWeight: "bold",
                 color: "white",
                 textAlign: "center",
                 marginBottom: "15px",
+                fontFamily: "'Titillium Web', sans-serif",
               }}
             >
               Scan the QR Code displayed on screen by your teacher to{" "}
