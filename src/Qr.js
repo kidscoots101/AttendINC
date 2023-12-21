@@ -326,7 +326,7 @@ export default function Qr() {
               }}
             >
               Scan the QR Code displayed on screen by your teacher to{" "}
-              <span style={{ color: "yellow" }}>mark your attendance</span>
+              <span style={{ color: "yellow" }}>mark your attendance.</span>
             </text>
             <QrScanner
               onDecode={(result) => {
