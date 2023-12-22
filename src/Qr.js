@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { QrScanner } from "@yudiel/react-qr-scanner";
 import { getFirestore } from "firebase/firestore";
-import { collection, addDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
+import { getDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import {
   AffinidiLoginButton,
@@ -109,7 +110,7 @@ export default function Qr() {
   const app = initializeApp(firebaseConfig);
 
   const db = getFirestore(app);
-
+  console.log("hhdshburfbrbcltvbilytvbilgt5vbit5vbiy5ilvy5y5ubhut5y56y")
   const navigate = useNavigate();
   const nemail = localStorage.getItem("email");
   const email = unKKBRB(nemail);
@@ -117,13 +118,13 @@ export default function Qr() {
   async function sendToFirebase(qr, timeNow) {
     const unKKBRBInfo = unKKBRB(qr);
     const parts = unKKBRBInfo.split(process.env.REACT_APP_unKKBRBInfoSplitter);
-
-    const attendanceRef = await addDoc(
-      collection(
+    console.log(parts)
+    const attendanceRef = await setDoc(
+      doc(
         db,
         process.env.REACT_APP_firebaseRootCollection,
         parts[1],
-        process.env.REACT_APP_firebaseDocumentCollection,
+        process.env.REACT_APP_firebaseDocumentCollection
       ),
       {
         email: email,
@@ -134,6 +135,21 @@ export default function Qr() {
     setIsScanned(true);
     setCameraActive(false);
     setTimeout(function () {}, 15000);
+  }
+
+  async function validateScanning() {
+    const docRef = doc(db, process.env.REACT_APP_firebaseRootCollection,
+      parts[1],
+      uuid
+      );
+    const docSnap = await getDoc(docRef)
+
+    if (docSnap.exists()) {
+      return true
+    } else {
+      // docSnap.data() will be undefined in this case
+      return false
+    }
   }
 
   const [isCameraActive, setCameraActive] = useState(true);
@@ -318,16 +334,15 @@ export default function Qr() {
           >
             <text
               style={{
-                fontSize: "2vh",
+                fontSize: "1.9vh",
                 fontWeight: "bold",
                 color: "white",
                 textAlign: "center",
                 marginBottom: "15px",
-                fontFamily: "'Titillium Web', sans-serif",
               }}
             >
               Scan the QR Code displayed on screen by your teacher to{" "}
-              <span style={{ color: "yellow" }}>mark your attendance.</span>
+              <span style={{ color: "yellow" }}>mark your attendance</span>
             </text>
             <QrScanner
               onDecode={(result) => {
