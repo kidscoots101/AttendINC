@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { QrScanner } from "@yudiel/react-qr-scanner";
 import { getFirestore } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
-import { getDoc } from "firebase/firestore";
+import { getDoc, deleteDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import {
   AffinidiLoginButton,
@@ -145,7 +145,12 @@ export default function Qr() {
     const docSnap = await getDoc(docRef)
 
     if (docSnap.exists()) {
+      await deleteDocdoc(db, process.env.REACT_APP_firebaseRootCollection,
+        parts[1],
+        uuid
+        );
       return true
+
     } else {
       // docSnap.data() will be undefined in this case
       return false
