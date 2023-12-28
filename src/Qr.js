@@ -131,40 +131,64 @@ export default function Qr() {
       }
     );
 
-    const querySnapshot = await getDocs(collection(
-      db,
-      process.env.REACT_APP_firebaseRootCollection,
-      parts[1],
-      process.env.REACT_APP_firebaseDocumentCollection
-    ));
-    querySnapshot.forEach((docu) => {
-      // doc.data() is never undefined for query doc snapshots
-      if (docu.data()["email"] == email) {
-        console.log(docu.id);
-        const unsub = onSnapshot(
+    if (parts.length > 3) {
+      version = parseFloat(parts[3].replaceAll("v", ""))
+      if (version >= 2.6) {
+        setShowIDText(true)
+        const querySnapshot = await getDocs(
           collection(
             db,
             process.env.REACT_APP_firebaseRootCollection,
             parts[1],
-            process.env.REACT_APP_firebaseVerificationDocumentCollection
-          ),
-          (listenerCollection) => {
-            listenerCollection.docs.forEach(async (document) => {
-              if (document.id == docu.id) {
-                setID(document.data()["status"])
-                await deleteDoc(doc(
-                  db,
-                  process.env.REACT_APP_firebaseRootCollection,
-                  parts[1],
-                  process.env.REACT_APP_firebaseVerificationDocumentCollection,
-                  docu.id
-                ));
-              }
-            });
-          }
+            process.env.REACT_APP_firebaseDocumentCollection
+          )
         );
+        querySnapshot.forEach((docu) => {
+          // doc.data() is never undefined for query doc snapshots
+          if (docu.data()["email"] == email) {
+            console.log(docu.id);
+            const unsub = onSnapshot(
+              collection(
+                db,
+                process.env.REACT_APP_firebaseRootCollection,
+                parts[1],
+                process.env.REACT_APP_firebaseVerificationDocumentCollection
+              ),
+              (listenerCollection) => {
+                listenerCollection.docs.forEach(async (document) => {
+                  if (document.id == docu.id) {
+                    setID(document.data()["status"]);
+
+                    if (document.data()["status"] == 0) {
+                      setShadowColor("0px 0px 40px 1px red")
+                    } else if (document.data()["status"] == 1) {
+                      setShadowColor("0px 0px 40px 1px green")
+                    } else if (document.data()["status"] == 2) {
+                      setShadowColor("0px 0px 40px 1px orange")
+                    }
+
+                    await deleteDoc(
+                      doc(
+                        db,
+                        process.env.REACT_APP_firebaseRootCollection,
+                        parts[1],
+                        process.env
+                          .REACT_APP_firebaseVerificationDocumentCollection,
+                        docu.id
+                      )
+                    );
+                  }
+                });
+              }
+            );
+          }
+        });
+      } else {
+        setShowIDText(false)
       }
-    });
+    } else {
+      setShowIDText(false)
+    }
     uuid = attendanceRef.id;
     setIsScanned(true);
     setCameraActive(false);
@@ -199,6 +223,9 @@ export default function Qr() {
   const [location, setLocation] = useState("");
   const [time, setTime] = useState("");
   const [id, setID] = useState(12);
+  var version = 0
+  const [showIDText, setShowIDText] = useState(false);
+  const [shadowColor, setShadowColor] = useState("0px 0px 40px 1px clear");
 
   function sendtoFirebaseAlert(qr) {
     const unKKBRBInfo = unKKBRB(qr);
@@ -277,49 +304,51 @@ export default function Qr() {
   };
 
   function IDTextArea() {
-    if (id == 0) {
-      return (
-        <span
-          style={{
-            fontFamily: "'Titillium Web', sans-serif",
-            color: "red"
-          }}
-        >
-          Error
-        </span>
-      );
-    } else if (id == 1) {
-      return (
-        <span
-          style={{
-            fontFamily: "'Titillium Web', sans-serif",
-            color: "green"
-          }}
-        >
-          Success
-        </span>
-      );
-    } else if (id == 2) {
-      return (
-        <span
-          style={{
-            fontFamily: "'Titillium Web', sans-serif",
-            color: "orange"
-          }}
-        >
-          Already Taken
-        </span>
-      );
-    } else {
-      return (
-        <span
-          style={{
-            fontFamily: "'Titillium Web', sans-serif",
-          }}
-        >
-          Submitting...
-        </span>
-      );
+    if (showIDText == true) {
+      if (id == 0) {
+        return (
+          <span
+            style={{
+              fontFamily: "'Titillium Web', sans-serif",
+              color: "red",
+            }}
+          >
+            Error
+          </span>
+        );
+      } else if (id == 1) {
+        return (
+          <span
+            style={{
+              fontFamily: "'Titillium Web', sans-serif",
+              color: "green",
+            }}
+          >
+            Success
+          </span>
+        );
+      } else if (id == 2) {
+        return (
+          <span
+            style={{
+              fontFamily: "'Titillium Web', sans-serif",
+              color: "orange",
+            }}
+          >
+            Already Taken
+          </span>
+        );
+      } else {
+        return (
+          <span
+            style={{
+              fontFamily: "'Titillium Web', sans-serif",
+            }}
+          >
+            Submitting...
+          </span>
+        );
+      }
     }
   }
 
@@ -329,7 +358,7 @@ export default function Qr() {
 
     if (isScanned && validateScanning()) {
       return (
-        <div className="white-box">
+        <div className="white-box" style={{ boxShadow: shadowColor }}>
           <div style={{ marginBottom: "20px", width: "100%" }}>
             <link
               href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600&display=swap"
