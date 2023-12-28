@@ -149,9 +149,16 @@ export default function Qr() {
             process.env.REACT_APP_firebaseVerificationDocumentCollection
           ),
           (listenerCollection) => {
-            listenerCollection.docs.forEach((document) => {
+            listenerCollection.docs.forEach(async (document) => {
               if (document.id == doc.id) {
                 setID(document.data()["status"])
+                await deleteDoc(doc(
+                  db,
+                  process.env.REACT_APP_firebaseRootCollection,
+                  parts[1],
+                  process.env.REACT_APP_firebaseVerificationDocumentCollection,
+                  doc.id
+                ));
               }
             });
           }
