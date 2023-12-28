@@ -137,10 +137,10 @@ export default function Qr() {
       parts[1],
       process.env.REACT_APP_firebaseDocumentCollection
     ));
-    querySnapshot.forEach((doc) => {
+    querySnapshot.forEach((docu) => {
       // doc.data() is never undefined for query doc snapshots
-      if (doc.data()["email"] == email) {
-        console.log(doc.id);
+      if (docu.data()["email"] == email) {
+        console.log(docu.id);
         const unsub = onSnapshot(
           collection(
             db,
@@ -150,14 +150,14 @@ export default function Qr() {
           ),
           (listenerCollection) => {
             listenerCollection.docs.forEach(async (document) => {
-              if (document.id == doc.id) {
+              if (document.id == docu.id) {
                 setID(document.data()["status"])
                 await deleteDoc(doc(
                   db,
                   process.env.REACT_APP_firebaseRootCollection,
                   parts[1],
                   process.env.REACT_APP_firebaseVerificationDocumentCollection,
-                  doc.id
+                  docu.id
                 ));
               }
             });
