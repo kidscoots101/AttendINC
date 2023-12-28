@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { QrScanner } from "@yudiel/react-qr-scanner";
-import { getFirestore } from "firebase/firestore";
-import { collection, addDoc, doc, getDoc, deleteDoc } from "firebase/firestore";
+import { collection, addDoc, doc, getDocs, getDoc, deleteDoc, onSnapshot, getFirestore } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import {
   AffinidiLoginButton,
@@ -123,14 +122,42 @@ export default function Qr() {
         db,
         process.env.REACT_APP_firebaseRootCollection,
         parts[1],
-        process.env.REACT_APP_firebaseDocumentCollection,
+        process.env.REACT_APP_firebaseDocumentCollection
       ),
       {
         email: email,
         timeOfPost: timeNow,
         timeOnQRCode: Number(parts[2]),
-      },
+      }
     );
+
+    const querySnapshot = await getDocs(collection(
+      db,
+      process.env.REACT_APP_firebaseRootCollection,
+      parts[1],
+      process.env.REACT_APP_firebaseDocumentCollection
+    ));
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      if (doc.data()["email"] == email) {
+        console.log(doc.id);
+        const unsub = onSnapshot(
+          collection(
+            db,
+            process.env.REACT_APP_firebaseRootCollection,
+            parts[1],
+            process.env.REACT_APP_firebaseVerificationDocumentCollection
+          ),
+          (listenerCollection) => {
+            listenerCollection.docs.forEach((document) => {
+              if (document.id == doc.id) {
+                setID(document.data()["status"])
+              }
+            });
+          }
+        );
+      }
+    });
     uuid = attendanceRef.id;
     setIsScanned(true);
     setCameraActive(false);
@@ -164,7 +191,7 @@ export default function Qr() {
   const [isCameraActive, setCameraActive] = useState(true);
   const [location, setLocation] = useState("");
   const [time, setTime] = useState("");
-  const [id, setID] = useState("");
+  const [id, setID] = useState(12);
 
   function sendtoFirebaseAlert(qr) {
     const unKKBRBInfo = unKKBRB(qr);
@@ -179,7 +206,7 @@ export default function Qr() {
       setCameraActive(false);
       setLocation(parts[0]);
       setTime(timeNow);
-      setID(parts[1].split("-"));
+      // setID(parts[1].split("-"));
     }
   }
   function padZero(number) {
@@ -242,6 +269,53 @@ export default function Qr() {
     handleLogout();
   };
 
+  function IDTextArea() {
+    if (id == 0) {
+      return (
+        <span
+          style={{
+            fontFamily: "'Titillium Web', sans-serif",
+            color: "red"
+          }}
+        >
+          Error
+        </span>
+      );
+    } else if (id == 1) {
+      return (
+        <span
+          style={{
+            fontFamily: "'Titillium Web', sans-serif",
+            color: "green"
+          }}
+        >
+          Success
+        </span>
+      );
+    } else if (id == 2) {
+      return (
+        <span
+          style={{
+            fontFamily: "'Titillium Web', sans-serif",
+            color: "orange"
+          }}
+        >
+          Already Taken
+        </span>
+      );
+    } else {
+      return (
+        <span
+          style={{
+            fontFamily: "'Titillium Web', sans-serif",
+          }}
+        >
+          Submitting...
+        </span>
+      );
+    }
+  }
+
   function ScannerArea(props) {
     const credentialsAreValid = props.credentialsAreValid;
     // const parts = unKKBRBInfo.split(process.env.REACT_APP_unKKBRBInfoSplitter);
@@ -274,13 +348,7 @@ export default function Qr() {
                   fontWeight: "bold",
                 }}
               >
-                <span
-                  style={{
-                    fontFamily: "'Titillium Web', sans-serif",
-                  }}
-                >
-                  # {id[0]}
-                </span>
+                <IDTextArea />
               </div>
             </div>
           </div>
@@ -310,7 +378,6 @@ export default function Qr() {
               }}
             >
               {email && email.split("@")[0].replace(/_/g, " ").toUpperCase()}{" "}
-              stu
             </span>
           </div>
 
