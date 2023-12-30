@@ -245,7 +245,7 @@ const AttendanceSystem = () => {
               fontFamily: "'Titillium Web', sans-serif",
             }}
           >
-            developed with ❤️ by 2023 exco members
+            developed with ❤️ by 2023 SST Inc exco members
           </text>
         </div>
       )}
