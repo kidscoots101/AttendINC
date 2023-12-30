@@ -82,6 +82,7 @@ function ConfigPage() {
               marginTop: 30,
               fontFamily: "'Titillium Web', sans-serif",
               color: "white",
+              textAlign: "center"
             }}
           >
             ExiSST is currently in its beta stage and is only available for selected users at the moment.
