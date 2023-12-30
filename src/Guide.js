@@ -12,7 +12,7 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import loginimg from './login.png'
 import alertimg from './alert.png'
-import successimg from './success.PNG'
+import successimg from './success.png'
 import endimg from './endscreen.png'
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -49,8 +49,8 @@ const Guide = () => {
     };
   }, []);
   const steps = [
-    'Install the AttendINC Mac app on your device through Testflight',
-    'Launch app and select spreadsheet ID',
+    'Install the AttendINC app on your Mac via Testflight',
+    'Launch AttendINC and enter your spreadsheet URL',
   ];
 
   return (
@@ -80,7 +80,7 @@ const Guide = () => {
           <img src={logo} alt="Logo" style={{ height: 40, borderRadius: 10 }} />
         </a>
 
-        <div style={{ display: "flex", alignItems: "center" }}>
+        {/* <div style={{ display: "flex", alignItems: "center" }}>
           <a
             href="https://github.com/kidscoots101/inc-terminal-attendance"
             target="_blank"
@@ -90,7 +90,7 @@ const Guide = () => {
             <FontAwesomeIcon icon={faStar} style={{ marginRight: "5px" }} />
             <i className="fab fa-github" style={{}}></i> Star Us on Github!
           </a>
-        </div>
+        </div> */}
       </header>
 
       <link
@@ -160,8 +160,7 @@ const Guide = () => {
               macOS app on your device.
             </li>
             <li>
-              Requires macOS Monterrey (or later) or Mac running macOS 12
-              onwards
+              Requires a Mac running macOS Monterey/macOS 12 or later.
             </li>
           </ul>
           <Box sx={{ width: "100%" }}>
@@ -238,7 +237,7 @@ const Guide = () => {
                   </h3>
                   <p style={{ color: "#9ba1a6" }}>
                     This is important to ensure that we know you are the one
-                    inside our list.
+                    inside our of the attendance spreadsheet.
                   </p>
                   <img
                     src={loginimg}
@@ -258,10 +257,9 @@ const Guide = () => {
                 </TimelineSeparator>
                 <TimelineContent>
                   {/*  */}
-                  <h3>Permissions</h3>
+                  <h3>Camera Permissions</h3>
                   <p style={{ color: "#9ba1a6" }}>
-                    Click 'Allow Camera Access'. (don't worry we are not
-                    stealing any data)
+                    Click 'Allow Camera Access' to grant AttendINC access to your device's camera.
                   </p>
                   <img
                     src={alertimg}
@@ -282,12 +280,12 @@ const Guide = () => {
                 <TimelineContent>
                   {/*  */}
                   <h3>
-                    Point your camera towards the QR code on the screen and a
+                    Point your camera towards the QR Code displayed on screen by your teacher and a
                     pop up should appear.
                   </h3>
                   <p style={{ color: "#9ba1a6" }}>
-                    Make sure it is <u>fully</u> shown in the camera and press
-                    'OK'.
+                    Make sure it is <u>fully</u> shown in the camera. A confirmation alert will appear, press
+                    'OK' to submit your attendance.
                   </p>
                   <img
                     src={successimg}
@@ -308,10 +306,17 @@ const Guide = () => {
                   {/*  */}
                   <h3>Success!</h3>
                   <p style={{ color: "#9ba1a6" }}>
-                    Upon pressing 'OK', you should be directed to the screen
-                    below. Do remember to double-check your name on the admin
-                    console. If you encounter any issues, do tell the
-                    person-in-charge or the nearest ExCo{" "}
+                    Upon pressing 'OK', you will be directed to the screen
+                    below, and the status of your attendance will be displayed.<br /><br />
+                    
+                    If it shows 'Success', your attendance has been successfully 
+                    taken. If there is an error, please refresh the page and scan
+                    the QR Code again. If your attendance has already been marked, 
+                    it will show up as 'Already Taken'.<br /><br />
+                    
+                    Should the status of your attendance not appear on the webpage,
+                    you can double-check it on your teacher's screen, on the right
+                    of the displayed QR Code.
                   </p>
                   <img
                     src={endimg}
