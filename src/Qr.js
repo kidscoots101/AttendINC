@@ -242,7 +242,7 @@ export default function Qr() {
     const parts = unKKBRBInfo.split(process.env.REACT_APP_unKKBRBInfoSplitter);
     const timeNow = Number(Date.now());
     const confirmResponse = window.confirm(
-      `Press OK to submit attendance in ${parts[0]}`,
+      `Press OK to submit attendance for ${parts[0]}`,
     );
     if (confirmResponse) {
       setIsScanned(true);
