@@ -195,7 +195,7 @@ const AttendanceSystem = () => {
               backgroundcolor: "blue",
             }}
           />
-          {!isMobile && !profile && (
+          {/* {!isMobile && !profile && (
             <>
               <text
                 style={{
@@ -218,7 +218,7 @@ const AttendanceSystem = () => {
               <h2>error</h2>
               {error}
             </>
-          )}
+          )} */}
 
           {/* <button className="button">
         <text style={{ color: "#E1E1E4" }}>Tap this button</text>
