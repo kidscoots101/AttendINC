@@ -25,7 +25,7 @@ const Guide = () => {
     setSelectedMode(mode);
   };
   useEffect(() => {
-    document.title = `Quick Start - Attend INC`;
+    document.title = `Quick Start - AttendINC`;
   }, [selectedMode]);
   const navigate = useNavigate();
 
