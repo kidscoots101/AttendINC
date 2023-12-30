@@ -61,6 +61,7 @@ const Guide = () => {
         padding: "20px",
         color: "white",
         fontFamily: "'Titillium Web', sans-serif",
+        overflow: "auto"
       }}
     >
       <header
