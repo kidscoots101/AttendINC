@@ -8,7 +8,8 @@ import {
   useAffinidiProfile,
 } from "@affinidi/affinidi-react-auth";
 import "./Qr.css";
-import logo from "./inc.png";
+import inclogo from "./inc.png";
+import sstlogo from "./sstlogo.png";
 
 export default function Qr() {
   const isSmallScreen = window.innerWidth <= 600;
@@ -131,6 +132,14 @@ export default function Qr() {
       }
     );
 
+    if (parts.length > 4) {
+        if (parts[4] == "inc") {
+            setLogoToDisplay(inclogo)
+        } else if (parts[4] == "sst") {
+            setLogoToDisplay(sstlogo)
+        }
+    }
+
     if (parts.length > 3) {
       version = parseFloat(parts[3].replaceAll("v", ""))
       if (version >= 2.6) {
@@ -224,6 +233,7 @@ export default function Qr() {
   const [time, setTime] = useState("");
   const [id, setID] = useState(12);
   var version = 0
+  const [logoToDisplay, setLogoToDisplay] = useState(sstlogo)
   const [showIDText, setShowIDText] = useState(false);
   const [shadowColor, setShadowColor] = useState("0px 0px 40px 1px clear");
 
@@ -372,7 +382,7 @@ export default function Qr() {
               }}
             >
               <img
-                src={logo}
+                src={logoToDisplay}
                 alt="Logo"
                 style={{ height: 40, marginRight: "10px" }}
               />
